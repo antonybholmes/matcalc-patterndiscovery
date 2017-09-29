@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	<setting name="patterndiscovery.version.major" value="1" />
+	<setting name="patterndiscovery.version.minor" value="0" />
+	<setting name="patterndiscovery.version.revision" value="0" />
+	
+	<!-- How many points to use when building a cdf -->
+	<setting name="pattern-discovery.cdf.points" value="100"/>
+	<setting name="pattern-discovery.delta" value="0.01"/>
+	<setting name="pattern-discovery.min-genes" value="2"/>
+	<setting name="pattern-discovery.min-z-score" value="2"/>
+	
+	<setting name="patterndiscovery.help.type" value="web" />
+	<setting name="patterndiscovery.help.url" value="https://bitbucket.org/lab_rdf/matcalc/wiki/Pattern_Discovery"/>
+</settings>
