@@ -16,13 +16,13 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
  * @author Antony Holmes Holmes
  *
  */
-public class Pattern extends Comb {
+public class Pattern extends BaseComb {
 
 	private Comb mExComb;
 	
-	public Pattern(Collection<Integer> genes, 
-			Comb comb) {
+	public Pattern(Comb comb, Collection<Integer> genes) {
 		super(genes);
+		
 		mExComb = comb;
 	}
 
@@ -45,7 +45,7 @@ public class Pattern extends Comb {
 	 */
 	public static Pattern intersect(Pattern source, Pattern target) {
 		
-		Comb comb = Comb.intersect(source, target);
+		Comb comb = intersectCombs(source, target);
 		
 		Set<Integer> genes = new HashSet<Integer>();
 		
@@ -57,12 +57,16 @@ public class Pattern extends Comb {
 			genes.add(g);
 		}
 		
-		Pattern ret = new Pattern(genes, comb);
+		Pattern ret = new Pattern(comb, genes);
 		
 		return ret;
 	}
 
 	
+	public static Comb intersectCombs(Pattern source, Pattern target) {
+		return Comb.intersect(source.getComb(), target.getComb());
+	}
+
 	public static double p(int experiments, 
 			int genes, 
 			int totalExp, 

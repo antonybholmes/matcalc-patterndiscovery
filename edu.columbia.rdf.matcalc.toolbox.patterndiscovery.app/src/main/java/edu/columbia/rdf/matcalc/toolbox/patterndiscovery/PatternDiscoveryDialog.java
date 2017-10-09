@@ -103,8 +103,11 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 			new ModernCheckSwitch("only");
 	
 	/** The m check log. */
+	private ModernTwoStateWidget mCheckLogMode =
+			new ModernCheckSwitch(PlotConstants.MENU_LOG_TRANSFORM);
+	
 	private ModernTwoStateWidget mCheckLog =
-			new ModernCheckSwitch("Are log transformed", true);
+			new ModernCheckSwitch(PlotConstants.MENU_IS_LOG_TRANSFORMED);
 	
 	//private ModernTwoStateWidget mCheckBidirectional =
 	//		new ModernCheckSwitch("Intersect phenotype and control", true);
@@ -133,8 +136,8 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 	/**
 	 * The check plot.
 	 */
-	//private ModernTwoStateWidget mCheckPlot = 
-	//		new ModernCheckSwitch(PlotConstants.MENU_CREATE_PLOT, true);
+	private ModernTwoStateWidget mCheckPlot = 
+			new ModernCheckSwitch(PlotConstants.MENU_PLOT, true);
 	
 	/**
 	 * The check reset.
@@ -293,8 +296,8 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 		box3.add(mCheckConMinSupOnly);
 		box.add(box3);
 		
-		box.add(UI.createVGap(10));
-		box.add(mCheckLog);
+	
+		
 		//box.add(UI.createVGap(5));
 		//box.add(mCheckBidirectional);
 			
@@ -314,8 +317,13 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 		box3.add(new ModernLabel("Minimum Z-score", FIELD_WIDTH));
 		box3.add(mZScoreField);
 		box.add(box3);
-		//box.add(UI.createVGap(50));
-		//box.add(mCheckPlot);
+		
+		box.add(UI.createVGap(30));
+		box.add(mCheckLogMode);
+		box.add(UI.createVGap(5));
+		box.add(mCheckLog);
+		box.add(UI.createVGap(5));
+		box.add(mCheckPlot);
 		
 		//ModernComponent content = new ModernComponent();
 		
@@ -445,9 +453,9 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 	 *
 	 * @return the plot
 	 */
-	//public boolean getPlot() {
-	//	return mCheckPlot.isSelected();
-	//}
+	public boolean getPlot() {
+		return mCheckPlot.isSelected();
+	}
 
 	/**
 	 * Gets the n.
@@ -483,6 +491,10 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 	 */
 	public boolean getIsLogData() {
 		return mCheckLog.isSelected();
+	}
+
+	public boolean getLogMode() {
+		return mCheckLogMode.isSelected();
 	}
 
 	//public boolean getBidirectional() {

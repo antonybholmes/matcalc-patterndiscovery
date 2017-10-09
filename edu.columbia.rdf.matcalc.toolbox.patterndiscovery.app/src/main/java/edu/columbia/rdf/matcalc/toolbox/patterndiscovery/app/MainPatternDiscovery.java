@@ -11,15 +11,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.jebtk.core.AppService;
 import org.jebtk.modern.ColorTheme;
 import org.jebtk.modern.theme.ThemeService;
+import org.xml.sax.SAXException;
 
 import edu.columbia.rdf.matcalc.MainMatCalc;
 import edu.columbia.rdf.matcalc.ModuleLoader;
-
-import org.xml.sax.SAXException;
-
 import edu.columbia.rdf.matcalc.bio.BioModuleLoader;
 import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.PatternDiscoveryModule;
-import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.classifier.ClassifierModule;
 
 
 
@@ -36,8 +33,7 @@ public class MainPatternDiscovery {
 		ModuleLoader ml = new BioModuleLoader();
 		
 		ml.addModule(PatternDiscoveryModule.class);
-		ml.addModule(ClassifierModule.class);
-		
+
 		MainMatCalc.main(new PatternDiscoveryInfo(), ml);
 	}
 }

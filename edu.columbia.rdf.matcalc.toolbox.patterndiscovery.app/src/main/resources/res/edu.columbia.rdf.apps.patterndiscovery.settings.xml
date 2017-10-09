@@ -11,5 +11,5 @@
 	<setting name="pattern-discovery.min-z-score" value="2"/>
 	
 	<setting name="patterndiscovery.help.type" value="web" />
-	<setting name="patterndiscovery.help.url" value="https://bitbucket.org/lab_rdf/matcalc/wiki/Pattern_Discovery"/>
+	<setting name="patterndiscovery.help.url" value="https://github.com/lab-rdf/matcalc/wiki/Pattern-Discovery"/>
 </settings>
