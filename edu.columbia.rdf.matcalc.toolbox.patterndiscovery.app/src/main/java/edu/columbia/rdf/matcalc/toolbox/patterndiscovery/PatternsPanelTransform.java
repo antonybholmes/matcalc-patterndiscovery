@@ -22,8 +22,8 @@ public class PatternsPanelTransform extends MatrixTransform {
 	@Override
 	public void apply() {
 		mParent.getTabsPane().getModel().getLeftTabs().clear();
-		mParent.getTabsPane().getModel().getLeftTabs().addTab(new SizableContentPane("Patterns", 
-				new CloseableHTab("Patterns", mPanel, mParent.getTabsPane()), 250, 200, 500));
+		mParent.getTabsPane().getModel().getLeftTabs().addTab(new SizableContentPane("Pattern Discovery", 
+				new CloseableHTab("Pattern Discovery", mPanel, mParent.getTabsPane()), 250, 200, 500));
 	}
 
 }

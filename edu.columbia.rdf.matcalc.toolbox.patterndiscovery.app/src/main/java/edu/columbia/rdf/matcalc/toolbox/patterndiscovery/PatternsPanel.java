@@ -23,6 +23,7 @@ import org.jebtk.graphplot.figure.series.XYSeriesGroup;
 import org.jebtk.graphplot.figure.series.XYSeriesModel;
 import org.jebtk.math.matrix.AnnotatableMatrix;
 import org.jebtk.math.matrix.AnnotationMatrix;
+import org.jebtk.modern.BorderService;
 import org.jebtk.modern.ModernComponent;
 import org.jebtk.modern.UI;
 import org.jebtk.modern.UIService;
@@ -35,12 +36,14 @@ import org.jebtk.modern.button.ModernRadioButton;
 import org.jebtk.modern.dialog.ModernMessageDialog;
 import org.jebtk.modern.event.ModernClickEvent;
 import org.jebtk.modern.event.ModernClickListener;
+import org.jebtk.modern.graphics.icons.RunVectorIcon;
 import org.jebtk.modern.help.ModernDialogHelpButton;
 import org.jebtk.modern.listpanel.ModernListPanel;
 import org.jebtk.modern.listpanel.ModernListPanelItem;
 import org.jebtk.modern.panel.HBox;
 import org.jebtk.modern.panel.VBox;
 import org.jebtk.modern.scrollpane.ModernScrollPane;
+import org.jebtk.modern.scrollpane.ScrollBarLocation;
 import org.jebtk.modern.scrollpane.ScrollBarPolicy;
 import org.jebtk.modern.text.ModernSubHeadingLabel;
 import org.jebtk.modern.tree.ModernCheckTree;
@@ -71,12 +74,12 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 
 	private CheckBox mCheckUnique =
 			new ModernCheckSwitch("Unique Samples", true);
-	
+
 	private CheckBox mCheckSelectAll =
 			new ModernCheckSwitch(UI.MENU_SELECT_ALL, true);
 
 	private ModernButton mButtonUpdate = 
-			new ModernButton(PlotConstants.MENU_UPDATE, UIService.getInstance().loadIcon("update", 16));
+			new ModernButton(PlotConstants.MENU_UPDATE, UIService.getInstance().loadIcon(RunVectorIcon.class, 16));
 
 	private AnnotationMatrix mM;
 
@@ -151,17 +154,19 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 		ModernComponent panel = new ModernComponent();
 
 
-		panel.setHeader(new ModernComponent(mCheckSelectAll, SMALL_BORDER));
-		
-		
+		panel.setHeader(new ModernComponent(mCheckSelectAll, 
+				BorderService.getInstance().createBorder(PADDING, PADDING, DOUBLE_PADDING, PADDING)));
+
+
 		loadPatterns(phenGroup, phenPatterns, phenGroup.getColor(), mML);
 		loadPatterns(controlGroup, phenPatterns2, phenGroup.getColor(), mML);
-		
+
 		loadPatterns(controlGroup, controlPatterns, controlGroup.getColor(), mML);
 		loadPatterns(phenGroup, controlPatterns2, controlGroup.getColor(), mML);
-		ModernScrollPane scrollPane = new ModernScrollPane(mML);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollBarPolicy.NEVER);
-		scrollPane.setVerticalScrollBarPolicy(ScrollBarPolicy.AUTO_SHOW);
+		ModernScrollPane scrollPane = new ModernScrollPane(mML)
+				.setHorizontalScrollBarPolicy(ScrollBarPolicy.NEVER)
+				.setVerticalScrollBarPolicy(ScrollBarPolicy.AUTO_SHOW)
+				.setVScrollBarLocation(ScrollBarLocation.FLOATING);
 
 		/*
 		loadPatterns(phenGroup, phenPatterns, mPhenSelMap);
@@ -216,7 +221,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 	}
 
 	private void selectAll() {
-		for (ModernListPanelItem item : mML.getModel()) {
+		for (ModernListPanelItem item : mML) {
 			PatternPanel pp = (PatternPanel)item.getComponent();
 
 			pp.setSelected(mCheckSelectAll.isSelected());
@@ -247,7 +252,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 			// the of patterns it is supposed to be in.
 			CountMap<Integer> countMap = CountMap.create();
 
-			for (ModernListPanelItem item : mML.getModel()) {
+			for (ModernListPanelItem item : mML) {
 				PatternPanel pp = (PatternPanel)item.getComponent();
 
 				if (pp.isSelected()) {
@@ -273,7 +278,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 			}
 			 */
 
-			for (ModernListPanelItem item : mML.getModel()) {
+			for (ModernListPanelItem item : mML) {
 				PatternPanel pp = (PatternPanel)item.getComponent();
 
 				if (pp.isSelected()) {
@@ -293,7 +298,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 		} else {
 			// Union of all genes
 
-			for (ModernListPanelItem item : mML.getModel()) {
+			for (ModernListPanelItem item : mML) {
 				PatternPanel pp = (PatternPanel)item.getComponent();
 
 				if (pp.isSelected()) {
@@ -321,6 +326,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 		if (biggestCombGenes.size() == 0) {
 			ModernMessageDialog.createWarningDialog(mWindow, 
 					"No suitable patterns could be found.");
+
 			return;
 		}
 
@@ -341,9 +347,6 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 		AnnotationMatrix patternM = 
 				AnnotatableMatrix.copyRows(mM, biggestCombGenes);
 
-
-
-
 		if (mCheckPlot.isSelected()) {
 			// Count how many are up or down
 
@@ -357,23 +360,23 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 				// Since the z-scores are ordered, simply find the inflection
 				// point from positive to negative to know how many positive
 				// and negative samples there are
-				
+
 				while (c < zscores.length) {
 					if (zscores[c] < 0) {
 						break;
 					}
-					
+
 					++c;
 				}
-				
+
 				System.err.println("up " + c);
 
 				if (c > 0) {
 					countGroups.add(new CountGroup("up", 0, c - 1));
 				}
-				
+
 				int c2 = zscores.length - 1;
-				
+
 				if (c2 - c > 0) {
 					countGroups.add(new CountGroup("down", c, c2));
 				}
@@ -384,7 +387,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 
 				boolean unique = mCheckUnique.isSelected();
 
-				for (ModernListPanelItem item : mML.getModel()) {
+				for (ModernListPanelItem item : mML) {
 					PatternPanel pp = (PatternPanel)item.getComponent();
 
 					if (pp.isSelected()) {
@@ -423,6 +426,25 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 							history,
 							mProperties));
 
+			//if (mCheckMerge.isSelected()) {
+			//	mWindow.addToHistory("Merged", patternM);
+			//} else {
+			// Create a separate matrix for each pattern
+
+			for (ModernListPanelItem item : mML) {
+				PatternPanel pp = (PatternPanel)item.getComponent();
+
+				//if (pp.isSelected()) {
+				AnnotationMatrix pM = AnnotatableMatrix.copyRows(mM, 
+						CollectionUtils.toList(pp.getPattern()));
+
+				mWindow.addToHistory(pp.getName(), pM);
+				//}
+			}
+			//}
+
+
+
 			//mWindow.addToHistory("Results", patternM);
 		}
 	}
@@ -437,7 +459,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 	private int countSelected() {
 		int ret = 0;
 
-		for (ModernListPanelItem item : mML.getModel()) {
+		for (ModernListPanelItem item : mML) {
 			PatternPanel p = (PatternPanel)item.getComponent();
 
 			if (p.isSelected()) {

@@ -41,6 +41,11 @@ public class PatternPanel extends ModernComponent {
 	public String getTitle() {
 		return mTitle;
 	}
+	
+	@Override
+	public String getName() {
+		return getTitle();
+	}
 
 	public void setSelected(boolean selected) {
 		mC.setSelected(selected);
