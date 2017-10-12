@@ -13,16 +13,13 @@ import org.jebtk.core.Properties;
 import org.jebtk.core.collections.CollectionUtils;
 import org.jebtk.core.collections.CountMap;
 import org.jebtk.core.collections.UniqueArrayList;
-import org.jebtk.core.tree.CheckTreeNode;
-import org.jebtk.core.tree.TreeNode;
-import org.jebtk.core.tree.TreeRootNode;
 import org.jebtk.graphplot.figure.heatmap.legacy.CountGroup;
 import org.jebtk.graphplot.figure.heatmap.legacy.CountGroups;
 import org.jebtk.graphplot.figure.series.XYSeries;
 import org.jebtk.graphplot.figure.series.XYSeriesGroup;
 import org.jebtk.graphplot.figure.series.XYSeriesModel;
-import org.jebtk.math.matrix.AnnotatableMatrix;
-import org.jebtk.math.matrix.AnnotationMatrix;
+import org.jebtk.math.matrix.DataFrame;
+import org.jebtk.math.matrix.DataFrame;
 import org.jebtk.modern.BorderService;
 import org.jebtk.modern.ModernComponent;
 import org.jebtk.modern.UI;
@@ -46,9 +43,6 @@ import org.jebtk.modern.scrollpane.ModernScrollPane;
 import org.jebtk.modern.scrollpane.ScrollBarLocation;
 import org.jebtk.modern.scrollpane.ScrollBarPolicy;
 import org.jebtk.modern.text.ModernSubHeadingLabel;
-import org.jebtk.modern.tree.ModernCheckTree;
-import org.jebtk.modern.tree.ModernTree;
-import org.jebtk.modern.tree.ModernTreeCheckNodeRenderer;
 
 import edu.columbia.rdf.matcalc.MainMatCalcWindow;
 import edu.columbia.rdf.matcalc.figure.PlotConstants;
@@ -81,7 +75,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 	private ModernButton mButtonUpdate = 
 			new ModernButton(PlotConstants.MENU_UPDATE, UIService.getInstance().loadIcon(RunVectorIcon.class, 16));
 
-	private AnnotationMatrix mM;
+	private DataFrame mM;
 
 
 	private MainMatCalcWindow mWindow;
@@ -104,7 +98,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 	private ModernListPanel mML = new ModernListPanel();
 
 	public PatternsPanel(MainMatCalcWindow window,
-			AnnotationMatrix m,
+			DataFrame m,
 			XYSeries phenGroup, 
 			XYSeries controlGroup,
 			List<Pattern> phenPatterns,
@@ -163,28 +157,14 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 
 		loadPatterns(controlGroup, controlPatterns, controlGroup.getColor(), mML);
 		loadPatterns(phenGroup, controlPatterns2, controlGroup.getColor(), mML);
+		
 		ModernScrollPane scrollPane = new ModernScrollPane(mML)
 				.setHorizontalScrollBarPolicy(ScrollBarPolicy.NEVER)
 				.setVerticalScrollBarPolicy(ScrollBarPolicy.AUTO_SHOW)
 				.setVScrollBarLocation(ScrollBarLocation.FLOATING);
 
-		/*
-		loadPatterns(phenGroup, phenPatterns, mPhenSelMap);
-		loadPatterns(controlGroup, controlPatterns, mConSelMap);
-
-
-		ModernTree<Pattern> tree = createPatternsTree(phenGroup, 
-				phenPatterns, 
-				controlGroup, 
-				controlPatterns);
-		ModernScrollPane scrollPane = new ModernScrollPane(tree);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollBarPolicy.NEVER);
-		scrollPane.setVerticalScrollBarPolicy(ScrollBarPolicy.AUTO_SHOW);
-		 */
-
 		panel.setBody(scrollPane);
 		setBody(panel);
-
 
 		box = VBox.create();
 		box.add(UI.createVGap(20));
@@ -344,43 +324,19 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 		//CollectionUtils.sort(CollectionUtils.intersect(phenPatterns.keySet(), controlPatterns.keySet()));
 
 
-		AnnotationMatrix patternM = 
-				AnnotatableMatrix.copyRows(mM, biggestCombGenes);
+		DataFrame patternM = 
+				DataFrame.copyRows(mM, biggestCombGenes);
 
 		if (mCheckPlot.isSelected()) {
 			// Count how many are up or down
 
-			CountGroups countGroups = new CountGroups();
+			CountGroups countGroups = null;
 
 			if (mCheckMerge.isSelected()) {
-				double[] zscores = patternM.getRowAnnotationValues("Z-score");
-
-				int c = 0;
-
-				// Since the z-scores are ordered, simply find the inflection
-				// point from positive to negative to know how many positive
-				// and negative samples there are
-
-				while (c < zscores.length) {
-					if (zscores[c] < 0) {
-						break;
-					}
-
-					++c;
-				}
-
-				System.err.println("up " + c);
-
-				if (c > 0) {
-					countGroups.add(new CountGroup("up", 0, c - 1));
-				}
-
-				int c2 = zscores.length - 1;
-
-				if (c2 - c > 0) {
-					countGroups.add(new CountGroup("down", c, c2));
-				}
+				countGroups = createCountGroups(patternM);
 			} else {
+				countGroups = new CountGroups();
+				
 				int c = 0;
 
 				Set<Integer> used = new HashSet<Integer>();
@@ -413,18 +369,20 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 
 			List<String> history = mWindow.getTransformationHistory();
 
-			int index = mWindow.searchHistory("Sort by z-score");
+			int index = mWindow.searchHistory("Patterns");
 
 			// Replace history after control curves
 			mWindow.addToHistory(index,
 					new PatternDiscoveryPlotMatrixTransform(mWindow,
+							"Patterns Plot",
 							patternM, 
 							mGroups,
 							mComparisonGroups, 
 							XYSeriesModel.EMPTY_SERIES,
 							countGroups,
 							history,
-							mProperties));
+							mProperties,
+							true));
 
 			//if (mCheckMerge.isSelected()) {
 			//	mWindow.addToHistory("Merged", patternM);
@@ -435,15 +393,33 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 				PatternPanel pp = (PatternPanel)item.getComponent();
 
 				//if (pp.isSelected()) {
-				AnnotationMatrix pM = AnnotatableMatrix.copyRows(mM, 
+				DataFrame pM = DataFrame.copyRows(mM, 
 						CollectionUtils.toList(pp.getPattern()));
 
-				mWindow.addToHistory(pp.getName(), pM);
+				//mWindow.addToHistory(pp.getName(), pM);
+				
+				countGroups = createCountGroups(pM);
+
+				mWindow.addToHistory(new PatternDiscoveryPlotMatrixTransform(mWindow,
+						pp.getName() + " Plot",
+						pM, 
+						mGroups,
+						mComparisonGroups, 
+						XYSeriesModel.EMPTY_SERIES,
+						countGroups,
+						history,
+						mProperties,
+						false));
+
+
 				//}
 			}
 			//}
 
 
+			// Change selection to main plot
+			index = mWindow.searchHistory("Patterns Plot");
+			mWindow.selectHistory(index);
 
 			//mWindow.addToHistory("Results", patternM);
 		}
@@ -552,29 +528,37 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 		}
 	}
 
-	private ModernTree<Pattern> createPatternsTree(XYSeries phenGroup,
-			List<Pattern> phenPatterns,
-			XYSeries contGroup,
-			List<Pattern> contPatterns) {
+	private static CountGroups createCountGroups(DataFrame m) {
+		CountGroups countGroups = new CountGroups();
 
+		double[] zscores = m.getRowAnnotationValues("Z-score");
 
-		ModernTree<Pattern> tree = new ModernCheckTree<Pattern>();
-		tree.setNodeRenderer(new ModernTreeCheckNodeRenderer());
+		int c = 0;
 
-		TreeRootNode<Pattern> root = new TreeRootNode<Pattern>();
+		// Since the z-scores are ordered, simply find the inflection
+		// point from positive to negative to know how many positive
+		// and negative samples there are
 
-		TreeNode<Pattern> phenNode = 
-				new CheckTreeNode<Pattern>(phenGroup.getName());
+		while (c < zscores.length) {
+			if (zscores[c] < 0) {
+				break;
+			}
 
-		root.addChild(phenNode);
+			++c;
+		}
 
-		TreeNode<Pattern> contNode = 
-				new CheckTreeNode<Pattern>(contGroup.getName());
+		System.err.println("up " + c);
 
-		root.addChild(contNode);
+		if (c > 0) {
+			countGroups.add(new CountGroup("up", 0, c - 1));
+		}
 
-		tree.setRoot(root);
+		int c2 = zscores.length - 1;
 
-		return tree;
+		if (c2 - c > 0) {
+			countGroups.add(new CountGroup("down", c, c2));
+		}
+		
+		return countGroups;
 	}
 }

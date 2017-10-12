@@ -20,7 +20,7 @@ import javax.swing.Box;
 import org.jebtk.core.settings.SettingsService;
 import org.jebtk.graphplot.figure.series.XYSeries;
 import org.jebtk.graphplot.figure.series.XYSeriesGroup;
-import org.jebtk.math.matrix.AnnotationMatrix;
+import org.jebtk.math.matrix.DataFrame;
 import org.jebtk.math.matrix.MatrixGroup;
 import org.jebtk.modern.UI;
 import org.jebtk.modern.button.ModernCheckSwitch;
@@ -153,7 +153,7 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 	/**
 	 * The member matrix.
 	 */
-	private AnnotationMatrix mMatrix;
+	private DataFrame mMatrix;
 
 	/**
 	 * The class Group1ModernClickEvent.
@@ -200,7 +200,7 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 	 * @param groups the groups
 	 */
 	public PatternDiscoveryDialog(ModernWindow parent, 
-			AnnotationMatrix matrix,
+			DataFrame matrix,
 			XYSeriesGroup groups) {
 		super(parent, "patterndiscovery.help.url");
 		

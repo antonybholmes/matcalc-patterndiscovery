@@ -33,7 +33,7 @@ import org.jebtk.core.Properties;
 import org.jebtk.graphplot.figure.heatmap.legacy.CountGroups;
 import org.jebtk.graphplot.figure.series.XYSeriesGroup;
 import org.jebtk.graphplot.figure.series.XYSeriesModel;
-import org.jebtk.math.matrix.AnnotationMatrix;
+import org.jebtk.math.matrix.DataFrame;
 import org.jebtk.modern.window.ModernRibbonWindow;
 import org.jebtk.modern.window.ModernWindow;
 import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.legacy.DifferentialExpressionPlotMatrixTransform;
@@ -45,6 +45,8 @@ import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.legacy.DifferentialExpressi
  *
  */
 public class PatternDiscoveryPlotMatrixTransform extends DifferentialExpressionPlotMatrixTransform {
+	private boolean mAutoShow;
+
 	/**
 	 * Instantiates a new pattern discovery plot matrix transform.
 	 *
@@ -56,15 +58,17 @@ public class PatternDiscoveryPlotMatrixTransform extends DifferentialExpressionP
 	 * @param properties the properties
 	 */
 	public PatternDiscoveryPlotMatrixTransform(ModernRibbonWindow parent,
-			AnnotationMatrix inputMatrix, 
+			String title,
+			DataFrame inputMatrix, 
 			XYSeriesModel groups,
 			XYSeriesGroup comparisonGroups,
 			XYSeriesModel rowGroups,
 			CountGroups countGroups,
 			List<String> history,
-			Properties properties) {
+			Properties properties,
+			boolean autoShow) {
 		super(parent,
-				"Pattern Discovery Plot",
+				title,
 				inputMatrix, 
 				groups,
 				comparisonGroups,
@@ -72,6 +76,20 @@ public class PatternDiscoveryPlotMatrixTransform extends DifferentialExpressionP
 				countGroups,
 				history,
 				properties);
+		
+		mAutoShow = autoShow;
+	}
+	
+	@Override
+	public void uiApply() {
+		super.apply();
+	}
+	
+	@Override
+	public void apply() {
+		if (mAutoShow) {
+			super.apply();
+		}
 	}
 
 	/* (non-Javadoc)

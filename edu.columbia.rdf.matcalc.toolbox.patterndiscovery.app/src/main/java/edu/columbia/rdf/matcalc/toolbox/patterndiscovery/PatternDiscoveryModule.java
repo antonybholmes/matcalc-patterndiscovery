@@ -24,8 +24,8 @@ import org.jebtk.graphplot.figure.series.XYSeries;
 import org.jebtk.graphplot.figure.series.XYSeriesGroup;
 import org.jebtk.graphplot.figure.series.XYSeriesModel;
 import org.jebtk.math.MathUtils;
-import org.jebtk.math.matrix.AnnotatableMatrix;
-import org.jebtk.math.matrix.AnnotationMatrix;
+import org.jebtk.math.matrix.DataFrame;
+import org.jebtk.math.matrix.DataFrame;
 import org.jebtk.math.matrix.DoubleMatrix;
 import org.jebtk.math.matrix.MatrixGroup;
 import org.jebtk.math.matrix.utils.MatrixArithmetic;
@@ -106,7 +106,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
 		XYSeriesModel rowGroups = XYSeriesModel.create(mWindow.getRowGroups());
 
-		AnnotationMatrix m = mWindow.getCurrentMatrix();
+		DataFrame m = mWindow.getCurrentMatrix();
 
 		if (m == null) {
 			return;
@@ -186,7 +186,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 	 * @param properties			Heat map properties.
 	 * @throws IOException
 	 */
-	public void patternDiscovery(AnnotationMatrix m,
+	public void patternDiscovery(DataFrame m,
 			double delta,
 			XYSeries phenGroup, 
 			XYSeries controlGroup,
@@ -207,7 +207,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		comparisonGroups.add(phenGroup);
 		comparisonGroups.add(controlGroup);
 		
-		AnnotationMatrix logM;
+		DataFrame logM;
 		
 		if (logMode) {
 			logM = mWindow.addToHistory("Log2", 
@@ -223,7 +223,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
 		// Rule of thumb, lets look at genes where at least half the
 		// samples are non zero
-		//AnnotationMatrix filterM = m; //mWindow.addToHistory("Min Exp Filter", MatrixOperations.minExpFilter(m, 0.01, indices.size() / 2));
+		//DataFrame filterM = m; //mWindow.addToHistory("Min Exp Filter", MatrixOperations.minExpFilter(m, 0.01, indices.size() / 2));
 
 
 		//
@@ -234,7 +234,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 				phenGroup, 
 				controlGroup);
 
-		AnnotationMatrix zscoresM = new AnnotatableMatrix(logM);
+		DataFrame zscoresM = new DataFrame(logM);
 		zscoresM.setNumRowAnnotations("Z-score", zscores);
 
 		mWindow.addToHistory("Z-score", zscoresM);
@@ -254,8 +254,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		zscores = CollectionUtils.subList(zscores, indices);
 		zscoresIndexed = CollectionUtils.index(zscores);
 
-		AnnotationMatrix zScoreFilteredM = mWindow.addToHistory("Filter z-score", 
-				AnnotatableMatrix.copyRows(zscoresM, indices));
+		DataFrame zScoreFilteredM = mWindow.addToHistory("Filter z-score", 
+				DataFrame.copyRows(zscoresM, indices));
 
 
 		//
@@ -279,7 +279,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
 		String name = isLogData || logMode ? "Log fold change" : "Fold change";
 
-		AnnotationMatrix foldChangesM = new AnnotatableMatrix(zScoreFilteredM);
+		DataFrame foldChangesM = new DataFrame(zScoreFilteredM);
 		foldChangesM.setNumRowAnnotations(name, foldChanges);
 
 		mWindow.addToHistory(name, foldChangesM);
@@ -294,14 +294,14 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		List<Indexed<Integer, Double>> posZScores = 
 				CollectionUtils.reverseSort(CollectionUtils.subList(zscoresIndexed, MathUtils.gt(zscoresIndexed, 0)));
 
-		AnnotationMatrix posZM = 
-				AnnotatableMatrix.copyRows(foldChangesM, IndexedInt.indices(posZScores));
+		DataFrame posZM = 
+				DataFrame.copyRows(foldChangesM, IndexedInt.indices(posZScores));
 
 		List<Indexed<Integer, Double>> negZScores = 
 				CollectionUtils.sort(CollectionUtils.subList(zscoresIndexed, MathUtils.lt(zscoresIndexed, 0)));
 
-		AnnotationMatrix negZM = 
-				AnnotatableMatrix.copyRows(foldChangesM, IndexedInt.indices(negZScores));
+		DataFrame negZM = 
+				DataFrame.copyRows(foldChangesM, IndexedInt.indices(negZScores));
 
 		// Now make a list of the new zscores in the correct order,
 		// positive decreasing, negative, decreasing
@@ -315,20 +315,20 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
 		System.err.println("zscore " + zscores + " " + indices);
 
-		AnnotationMatrix zScoreSortedM = 
-				AnnotatableMatrix.copyRows(foldChangesM, indices); //mWindow.addToHistory("Sort by z-score", AnnotatableMatrix.copyRows(foldChangesM, indices));
+		DataFrame zScoreSortedM = 
+				DataFrame.copyRows(foldChangesM, indices); //mWindow.addToHistory("Sort by z-score", AnnotatableMatrix.copyRows(foldChangesM, indices));
 
 
 		//
 		// Normalize control and phenotype by max in control group
 		//
 
-		//AnnotationMatrix phenStandardNormM = zScoreSortedM; //mWindow.addToHistory("Normalize To Control", normalize(orderM, controlGroup));
+		//DataFrame phenStandardNormM = zScoreSortedM; //mWindow.addToHistory("Normalize To Control", normalize(orderM, controlGroup));
 
 		//mWindow.addToHistory("Build phenotype curves", normPhenToControl(zScoreSortedM, phenGroup, controlGroup));
 
-		AnnotationMatrix phenNormM;
-		AnnotationMatrix controlNormM;
+		DataFrame phenNormM;
+		DataFrame controlNormM;
 		
 		//phenNormM = normPhenToControl(zScoreSortedM, phenGroup, controlGroup);
 		phenNormM = normPhenToControl(posZM, phenGroup, controlGroup);
@@ -408,7 +408,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 	 * @param minGenes
 	 * @return
 	 */
-	public static void patterns(final AnnotationMatrix phenM, 
+	public static void patterns(final DataFrame phenM, 
 			int phenSupport,
 			double delta,
 			boolean minSupportOnly,
@@ -626,7 +626,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 	 * @param minSupport
 	 * @return
 	 */
-	private static void elementaryPatterns(AnnotationMatrix m,
+	private static void elementaryPatterns(DataFrame m,
 			int ng,
 			int ne,
 			double delta,
@@ -754,7 +754,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 	 * @param controlGroup
 	 * @return
 	 */
-	private static AnnotationMatrix normPhenToControl(final AnnotationMatrix m, 
+	private static DataFrame normPhenToControl(final DataFrame m, 
 			final MatrixGroup phenGroup,
 			final MatrixGroup controlGroup) {
 		List<Integer> phenIndices = 
@@ -763,10 +763,10 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		List<Integer> controlIndices = 
 				MatrixGroup.findColumnIndices(m, controlGroup);
 
-		AnnotationMatrix ret = AnnotatableMatrix.createNumericalMatrix(m.getRowCount(), 
+		DataFrame ret = DataFrame.createNumericalMatrix(m.getRowCount(), 
 				phenIndices.size());
 
-		AnnotationMatrix.copyRowAnnotations(m, ret);
+		DataFrame.copyRowAnnotations(m, ret);
 
 		//
 		// First copy column names
@@ -817,15 +817,15 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		return ret;
 	}
 
-	public static <X extends MatrixGroup> AnnotationMatrix groupZScoreMatrix(AnnotationMatrix m,
+	public static <X extends MatrixGroup> DataFrame groupZScoreMatrix(DataFrame m,
 			XYSeriesGroup comparisonGroups,
 			List<X> groups) {
 
-		AnnotationMatrix ret = 
-				AnnotatableMatrix.createNumericalMatrix(m);
+		DataFrame ret = 
+				DataFrame.createNumericalMatrix(m);
 
-		//AnnotationMatrix.copyColumnAnnotations(m, ret);
-		//AnnotationMatrix.copyRowAnnotations(m, ret);
+		//DataFrame.copyColumnAnnotations(m, ret);
+		//DataFrame.copyRowAnnotations(m, ret);
 
 
 
