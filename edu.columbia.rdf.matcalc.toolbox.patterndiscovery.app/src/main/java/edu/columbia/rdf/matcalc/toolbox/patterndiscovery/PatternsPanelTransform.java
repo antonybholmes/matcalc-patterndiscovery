@@ -25,11 +25,11 @@ public class PatternsPanelTransform extends MatrixTransform {
 		//		new CloseableHTab("Pattern Discovery", mPanel, mParent.getTabsPane()), 250, 200, 500));
 		
 		
-		((MainMatCalcWindow)mParent).getLeftTabsModel().removeTab("Pattern Discovery");
-		((MainMatCalcWindow)mParent).addLeftTab("Pattern Discovery", 'P', 
+		((MainMatCalcWindow)mParent).getIconTabs().removeTab("Pattern Discovery");
+		((MainMatCalcWindow)mParent).getIconTabs().addTab("Pattern Discovery", 'P', 
 				new CloseableTab("Pattern Discovery", 
 						mPanel, 
-						((MainMatCalcWindow)mParent).getLeftTabsModel()));
+						((MainMatCalcWindow)mParent).getIconTabs().getModel()));
 	}
 
 }

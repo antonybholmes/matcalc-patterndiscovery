@@ -127,8 +127,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 		//box.add(new ModernSeparator());
 		//box.add(UI.createVGap(10));
 
-		//box.add(UI.createVGap(10));
-
+		box.add(UI.createVGap(10));
 		box.add(mCheckIntersect);
 		box.add(mCheckUnion);
 		box.add(UI.createVGap(5));
@@ -180,7 +179,7 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 
 		setFooter(box);
 
-		setBorder(LARGE_BORDER);
+		//setBorder(LARGE_BORDER);
 
 		mCheckPlot.setSelected(plot);
 
