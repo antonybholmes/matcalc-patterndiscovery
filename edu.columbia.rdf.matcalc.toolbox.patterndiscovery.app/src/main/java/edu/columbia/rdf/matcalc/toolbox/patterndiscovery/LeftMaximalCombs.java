@@ -6,9 +6,10 @@ import java.util.Set;
 import org.jebtk.core.collections.DefaultHashMap;
 import org.jebtk.core.collections.DefaultHashMapCreator;
 import org.jebtk.core.collections.HashSetCreator;
+import org.jebtk.core.collections.IterMap;
 
 public class LeftMaximalCombs {
-	private Map<Integer, Map<Integer, Set<Comb>>> mCombs =
+	private Map<Integer, IterMap<Integer, Set<Comb>>> mCombs =
 			DefaultHashMap.create(new DefaultHashMapCreator<Integer, Set<Comb>>(new HashSetCreator<Comb>()));
 	
 	private int mMax = -1;

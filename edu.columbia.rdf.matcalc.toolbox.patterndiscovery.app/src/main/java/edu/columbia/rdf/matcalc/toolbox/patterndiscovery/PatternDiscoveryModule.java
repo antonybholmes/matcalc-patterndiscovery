@@ -18,6 +18,7 @@ import org.jebtk.core.collections.ArrayListCreator;
 import org.jebtk.core.collections.CollectionUtils;
 import org.jebtk.core.collections.DefaultTreeMap;
 import org.jebtk.core.collections.DefaultTreeMapCreator;
+import org.jebtk.core.collections.IterMap;
 import org.jebtk.core.collections.TreeMapCreator;
 import org.jebtk.core.collections.TreeSetCreator;
 import org.jebtk.graphplot.figure.series.XYSeries;
@@ -25,10 +26,8 @@ import org.jebtk.graphplot.figure.series.XYSeriesGroup;
 import org.jebtk.graphplot.figure.series.XYSeriesModel;
 import org.jebtk.math.MathUtils;
 import org.jebtk.math.matrix.DataFrame;
-import org.jebtk.math.matrix.DataFrame;
 import org.jebtk.math.matrix.DoubleMatrix;
 import org.jebtk.math.matrix.MatrixGroup;
-import org.jebtk.math.matrix.utils.MatrixArithmetic;
 import org.jebtk.math.matrix.utils.MatrixOperations;
 import org.jebtk.math.statistics.KernelDensity;
 import org.jebtk.math.statistics.NormKernelDensity;
@@ -218,8 +217,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
 		// Order table by groups
 
-		List<Integer> indices = 
-				MatrixGroup.findAllColumnIndices(logM, comparisonGroups);
+		//List<Integer> indices = 
+		//		MatrixGroup.findAllColumnIndices(logM, comparisonGroups);
 
 		// Rule of thumb, lets look at genes where at least half the
 		// samples are non zero
@@ -242,7 +241,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		List<Indexed<Integer, Double>> zscoresIndexed = 
 				CollectionUtils.index(zscores);
 
-		indices = new ArrayList<Integer>();
+		List<Integer> indices = new ArrayList<Integer>();
 
 		for (Indexed<Integer, Double> index : zscoresIndexed) {
 			if (Math.abs(index.getValue()) > minZ) {
@@ -335,7 +334,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
 		// Where the phenotype stands out from the control
 		
-		Map<Integer, Map<Comb, Set<Integer>>> phenPatterns1 = 
+		Map<Integer, IterMap<Comb, Set<Integer>>> phenPatterns1 = 
 				DefaultTreeMap.create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
 		
 		patterns(phenNormM, phenSupport, delta, phenSupportOnly, minGenes, 0, phenPatterns1);
@@ -344,7 +343,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		
 		controlNormM = normPhenToControl(posZM, controlGroup, phenGroup);
 		
-		Map<Integer, Map<Comb, Set<Integer>>> phenPatterns2 = 
+		Map<Integer, IterMap<Comb, Set<Integer>>> phenPatterns2 = 
 				DefaultTreeMap.create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
 		
 		patterns(controlNormM, controlSupport, delta, controlSupportOnly, minGenes, 0, phenPatterns2);
@@ -361,14 +360,14 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		
 		int offset = posZM.getRowCount();
 		
-		Map<Integer, Map<Comb, Set<Integer>>> controlPatterns1 = 
+		Map<Integer, IterMap<Comb, Set<Integer>>> controlPatterns1 = 
 				DefaultTreeMap.create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
 
 		patterns(controlNormM, controlSupport, delta, controlSupportOnly, minGenes, offset, controlPatterns1);
 
 		phenNormM = normPhenToControl(negZM, phenGroup, controlGroup);
 		
-		Map<Integer, Map<Comb, Set<Integer>>> controlPatterns2 = 
+		Map<Integer, IterMap<Comb, Set<Integer>>> controlPatterns2 = 
 				DefaultTreeMap.create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
 		
 		patterns(phenNormM, phenSupport, delta, phenSupportOnly, minGenes, offset, controlPatterns2);
@@ -414,7 +413,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 			boolean minSupportOnly,
 			int minGenes,
 			int offset,
-			Map<Integer, Map<Comb, Set<Integer>>> maximalPatterns) {
+			Map<Integer, IterMap<Comb, Set<Integer>>> maximalPatterns) {
 		int ng = phenM.getRowCount();
 		int ne = phenM.getColumnCount();
 
@@ -480,7 +479,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 			boolean minSupportOnly,
 			int minGenes,
 			int offset,
-			Map<Integer, Map<Comb, Set<Integer>>> patternMap) {
+			Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
 
 
 		// The method as written in the paper seems extremely inefficient 
@@ -600,7 +599,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 	 * @return
 	 */
 	private static boolean isSuperComb(Comb source,
-			final Map<Integer, Map<Comb, Set<Integer>>> patternMap) {
+			final Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
 
 		for (int cs : patternMap.keySet()) {
 			for (Comb c : patternMap.get(cs).keySet()) {
@@ -943,7 +942,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
 
 	public static void filterPatterns(int minGenes,
-			Map<Integer, Map<Comb, Set<Integer>>> patternMap) {
+			Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
 		for (int cs : patternMap.keySet()) {
 			List<Comb> rem = new ArrayList<Comb>(patternMap.size());
 			
@@ -964,11 +963,11 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		}
 	}
 
-	public static List<Pattern> sortPatterns(Map<Integer, Map<Comb, Set<Integer>>> patternMap) {
+	public static List<Pattern> sortPatterns(Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
 		List<Pattern> patterns = new ArrayList<Pattern>();
 
 		for (int cs : patternMap.keySet()) {
-			Map<Integer, Map<Comb, Collection<Integer>>> sizeMap = 
+			Map<Integer, IterMap<Comb, Collection<Integer>>> sizeMap = 
 					DefaultTreeMap.create(new TreeMapCreator<Comb, Collection<Integer>>());
 
 			for (Comb c : patternMap.get(cs).keySet()) {
