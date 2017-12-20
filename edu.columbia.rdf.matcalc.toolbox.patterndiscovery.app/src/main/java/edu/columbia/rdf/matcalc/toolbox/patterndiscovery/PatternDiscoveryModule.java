@@ -358,7 +358,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		// need to be offset by the number of rows in the positive matrix so
 		// that the indices remain consistent with the whole matrix.
 		
-		int offset = posZM.getRowCount();
+		int offset = posZM.getRows();
 		
 		Map<Integer, IterMap<Comb, Set<Integer>>> controlPatterns1 = 
 				DefaultTreeMap.create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
@@ -414,8 +414,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 			int minGenes,
 			int offset,
 			Map<Integer, IterMap<Comb, Set<Integer>>> maximalPatterns) {
-		int ng = phenM.getRowCount();
-		int ne = phenM.getColumnCount();
+		int ng = phenM.getRows();
+		int ne = phenM.getCols();
 
 		// Normalize control
 		
@@ -636,7 +636,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 			// Sort values in order and keep track of which sample (column)
 			// they are
 			List<Indexed<Integer, Double>> p1 = 
-					CollectionUtils.sort(CollectionUtils.index(m.rowAsDouble(sg)));
+					CollectionUtils.sort(CollectionUtils.index(m.rowToDoubleArray(sg)));
 
 			// Try to find all possible supports of a given size for the
 			// gene
@@ -762,7 +762,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		List<Integer> controlIndices = 
 				MatrixGroup.findColumnIndices(m, controlGroup);
 
-		DataFrame ret = DataFrame.createNumericalMatrix(m.getRowCount(), 
+		DataFrame ret = DataFrame.createNumericalMatrix(m.getRows(), 
 				phenIndices.size());
 
 		DataFrame.copyRowAnnotations(m, ret);
@@ -782,12 +782,12 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 		//
 
 
-		for (int i = 0; i < m.getRowCount(); ++i) {
+		for (int i = 0; i < m.getRows(); ++i) {
 			double[] phenPoints = 
-					CollectionUtils.subList(m.rowAsDouble(i), phenIndices);
+					CollectionUtils.subList(m.rowToDoubleArray(i), phenIndices);
 
 			double[] controlPoints = 
-					CollectionUtils.subList(m.rowAsDouble(i), controlIndices); //MatrixOperations.rowToList(m, i, controlIndices);
+					CollectionUtils.subList(m.rowToDoubleArray(i), controlIndices); //MatrixOperations.rowToList(m, i, controlIndices);
 
 			Arrays.sort(phenPoints);
 			Arrays.sort(controlPoints);
@@ -853,7 +853,7 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
 		// Now normalize the the other groups
 
-		for (int r = 0; r < m.getRowCount(); ++r) {
+		for (int r = 0; r < m.getRows(); ++r) {
 			double mean = 0;
 			double sd = 0;
 

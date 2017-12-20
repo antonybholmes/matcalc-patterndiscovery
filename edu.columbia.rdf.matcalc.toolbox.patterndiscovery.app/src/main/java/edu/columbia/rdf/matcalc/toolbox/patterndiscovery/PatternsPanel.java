@@ -215,9 +215,9 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 		List<Integer> biggestCombGenes;
 
 		if (mCheckUnique.isSelected()) {
-			biggestCombGenes = new UniqueArrayList<Integer>(mM.getRowCount());
+			biggestCombGenes = new UniqueArrayList<Integer>(mM.getRows());
 		} else {
-			biggestCombGenes = new ArrayList<Integer>(mM.getRowCount());
+			biggestCombGenes = new ArrayList<Integer>(mM.getRows());
 		}
 
 		if (mCheckIntersect.isSelected()) {
