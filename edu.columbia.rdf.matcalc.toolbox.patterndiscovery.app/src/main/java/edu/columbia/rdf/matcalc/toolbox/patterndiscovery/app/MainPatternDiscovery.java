@@ -1,7 +1,5 @@
 package edu.columbia.rdf.matcalc.toolbox.patterndiscovery.app;
 
-
-
 import java.awt.FontFormatException;
 import java.io.IOException;
 
@@ -18,22 +16,21 @@ import edu.columbia.rdf.matcalc.ModuleLoader;
 import edu.columbia.rdf.matcalc.bio.BioModuleLoader;
 import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.PatternDiscoveryModule;
 
-
-
-
 public class MainPatternDiscovery {
-	//private static final Logger LOG = 
-	//		LoggerFactory.getLogger(MainSeqLogo.class);
-	
-	public static final void main(String[] args) throws FontFormatException, IOException, SAXException, ParserConfigurationException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		AppService.getInstance().setAppInfo("pattern_discovery");
-		
-		ThemeService.getInstance().setTheme(ColorTheme.ORANGE);
-		
-		ModuleLoader ml = new BioModuleLoader();
-		
-		ml.addModule(PatternDiscoveryModule.class);
+  // private static final Logger LOG =
+  // LoggerFactory.getLogger(MainSeqLogo.class);
 
-		MainMatCalc.main(new PatternDiscoveryInfo(), ml);
-	}
+  public static final void main(String[] args)
+      throws FontFormatException, IOException, SAXException, ParserConfigurationException, ClassNotFoundException,
+      InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    AppService.getInstance().setAppInfo("pattern_discovery");
+
+    ThemeService.getInstance().setTheme(ColorTheme.ORANGE);
+
+    ModuleLoader ml = new BioModuleLoader();
+
+    ml.addModule(PatternDiscoveryModule.class);
+
+    MainMatCalc.main(new PatternDiscoveryInfo(), ml);
+  }
 }

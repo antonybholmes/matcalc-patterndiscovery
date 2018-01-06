@@ -45,65 +45,52 @@ import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.legacy.DifferentialExpressi
  *
  */
 public class PatternDiscoveryPlotMatrixTransform extends DifferentialExpressionPlotMatrixTransform {
-	private boolean mAutoShow;
+  private boolean mAutoShow;
 
-	/**
-	 * Instantiates a new pattern discovery plot matrix transform.
-	 *
-	 * @param parent the parent
-	 * @param inputMatrix the input matrix
-	 * @param comparisonGroups the comparison groups
-	 * @param groups the groups
-	 * @param history the history
-	 * @param properties the properties
-	 */
-	public PatternDiscoveryPlotMatrixTransform(ModernRibbonWindow parent,
-			String title,
-			DataFrame inputMatrix, 
-			XYSeriesModel groups,
-			XYSeriesGroup comparisonGroups,
-			XYSeriesModel rowGroups,
-			CountGroups countGroups,
-			List<String> history,
-			Properties properties,
-			boolean autoShow) {
-		super(parent,
-				title,
-				inputMatrix, 
-				groups,
-				comparisonGroups,
-				rowGroups,
-				countGroups,
-				history,
-				properties);
-		
-		mAutoShow = autoShow;
-	}
-	
-	@Override
-	public void uiApply() {
-		super.apply();
-	}
-	
-	@Override
-	public void apply() {
-		if (mAutoShow) {
-			super.apply();
-		}
-	}
+  /**
+   * Instantiates a new pattern discovery plot matrix transform.
+   *
+   * @param parent
+   *          the parent
+   * @param inputMatrix
+   *          the input matrix
+   * @param comparisonGroups
+   *          the comparison groups
+   * @param groups
+   *          the groups
+   * @param history
+   *          the history
+   * @param properties
+   *          the properties
+   */
+  public PatternDiscoveryPlotMatrixTransform(ModernRibbonWindow parent, String title, DataFrame inputMatrix,
+      XYSeriesModel groups, XYSeriesGroup comparisonGroups, XYSeriesModel rowGroups, CountGroups countGroups,
+      List<String> history, Properties properties, boolean autoShow) {
+    super(parent, title, inputMatrix, groups, comparisonGroups, rowGroups, countGroups, history, properties);
 
-	/* (non-Javadoc)
-	 * @see edu.columbia.rdf.apps.matcalc.PlotMatrixTransform#createWindow()
-	 */
-	@Override
-	public ModernWindow createWindow() {
-		return new PatternDiscoveryPlotWindow((ModernRibbonWindow)mParent,
-				mMatrix,
-				mGroups,
-				mComparisonGroups,
-				mRowGroups,
-				mCountGroups,
-				mHistory,
-				mProperties);
-	}
+    mAutoShow = autoShow;
+  }
+
+  @Override
+  public void uiApply() {
+    super.apply();
+  }
+
+  @Override
+  public void apply() {
+    if (mAutoShow) {
+      super.apply();
+    }
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see edu.columbia.rdf.apps.matcalc.PlotMatrixTransform#createWindow()
+   */
+  @Override
+  public ModernWindow createWindow() {
+    return new PatternDiscoveryPlotWindow((ModernRibbonWindow) mParent, mMatrix, mGroups, mComparisonGroups, mRowGroups,
+        mCountGroups, mHistory, mProperties);
+  }
 }

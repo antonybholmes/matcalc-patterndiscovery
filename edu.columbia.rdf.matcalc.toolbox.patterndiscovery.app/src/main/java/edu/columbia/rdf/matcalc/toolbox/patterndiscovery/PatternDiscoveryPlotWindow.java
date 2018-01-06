@@ -39,54 +39,42 @@ import org.jebtk.modern.window.ModernRibbonWindow;
 import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.legacy.DifferentialExpressionPlotWindow;
 
 /**
- * Merges designated segments together using the merge column. Consecutive rows with the same
- * merge id will be merged together. Coordinates and copy number will be adjusted but
- * genes, cytobands etc are not.
+ * Merges designated segments together using the merge column. Consecutive rows
+ * with the same merge id will be merged together. Coordinates and copy number
+ * will be adjusted but genes, cytobands etc are not.
  *
  * @author Antony Holmes Holmes
  *
  */
-public class PatternDiscoveryPlotWindow extends DifferentialExpressionPlotWindow  {
-	private static final long serialVersionUID = 1L;
+public class PatternDiscoveryPlotWindow extends DifferentialExpressionPlotWindow {
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * Instantiates a new pattern discovery plot window.
-	 *
-	 * @param appInfo the app info
-	 * @param matrix the matrix
-	 * @param comparisonGroups the comparison groups
-	 * @param groups the all groups
-	 * @param history the history
-	 * @param properties the properties
-	 */
-	public PatternDiscoveryPlotWindow(ModernRibbonWindow window,
-			DataFrame matrix,
-			XYSeriesModel groups,
-			XYSeriesGroup comparisonGroups,
-			XYSeriesModel rowGroups,
-			CountGroups countGroups,
-			List<String> history,
-			Properties properties) {
-		super(window,
-				"Pattern Discovery",
-				matrix, 
-				groups,
-				comparisonGroups,
-				rowGroups,
-				countGroups,
-				history,
-				properties);
-	}
-	
+  /**
+   * Instantiates a new pattern discovery plot window.
+   *
+   * @param appInfo
+   *          the app info
+   * @param matrix
+   *          the matrix
+   * @param comparisonGroups
+   *          the comparison groups
+   * @param groups
+   *          the all groups
+   * @param history
+   *          the history
+   * @param properties
+   *          the properties
+   */
+  public PatternDiscoveryPlotWindow(ModernRibbonWindow window, DataFrame matrix, XYSeriesModel groups,
+      XYSeriesGroup comparisonGroups, XYSeriesModel rowGroups, CountGroups countGroups, List<String> history,
+      Properties properties) {
+    super(window, "Pattern Discovery", matrix, groups, comparisonGroups, rowGroups, countGroups, history, properties);
+  }
 
-	
-	/*
-	@Override
-	public void setMatrix(DataFrame matrix) {
-		super.setMatrix(matrix);
-		
-		setFormatPane();
-	}
-	*/
-	
+  /*
+   * @Override public void setMatrix(DataFrame matrix) { super.setMatrix(matrix);
+   * 
+   * setFormatPane(); }
+   */
+
 }

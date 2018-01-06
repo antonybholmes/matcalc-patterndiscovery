@@ -21,21 +21,17 @@ import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.Pattern;
 
 public class ProbTest {
 
-	@Test
-	public void probTest() {
-		
-		System.out.println("Path test");
-		
-		int experiments = 5;
-		int genes = 5;
-		int totalExp = 10;
-		int totalGenes = 10;
-		double delta = 0.05;
-		
-		System.err.println("p " + Pattern.p(experiments, 
-			genes, 
-			totalExp, 
-			totalGenes, 
-			delta));
-	}
+  @Test
+  public void probTest() {
+
+    System.out.println("Path test");
+
+    int experiments = 5;
+    int genes = 5;
+    int totalExp = 10;
+    int totalGenes = 10;
+    double delta = 0.05;
+
+    System.err.println("p " + Pattern.p(experiments, genes, totalExp, totalGenes, delta));
+  }
 }
