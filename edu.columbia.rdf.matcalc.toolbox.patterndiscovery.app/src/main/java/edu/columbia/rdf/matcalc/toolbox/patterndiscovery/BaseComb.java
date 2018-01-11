@@ -74,8 +74,8 @@ public class BaseComb implements Comparable<BaseComb>, Iterable<Integer> {
   }
 
   /**
-   * Test whether comb c1 super pattern of c2, that is c1 must contain all of the
-   * samples of c2 although it can be larger.
+   * Test whether comb c1 super pattern of c2, that is c1 must contain all of
+   * the samples of c2 although it can be larger.
    * 
    * @param c1
    * @param c2

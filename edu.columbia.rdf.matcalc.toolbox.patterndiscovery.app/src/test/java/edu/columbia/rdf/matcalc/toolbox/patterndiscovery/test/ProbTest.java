@@ -32,6 +32,7 @@ public class ProbTest {
     int totalGenes = 10;
     double delta = 0.05;
 
-    System.err.println("p " + Pattern.p(experiments, genes, totalExp, totalGenes, delta));
+    System.err.println(
+        "p " + Pattern.p(experiments, genes, totalExp, totalGenes, delta));
   }
 }

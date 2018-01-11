@@ -36,13 +36,15 @@ import org.jebtk.modern.widget.ModernTwoStateWidget;
 import org.jebtk.modern.widget.ModernWidget;
 import org.jebtk.modern.window.ModernWindow;
 import org.jebtk.modern.window.WindowWidgetFocusEvents;
+
 import edu.columbia.rdf.matcalc.GroupsCombo;
 import edu.columbia.rdf.matcalc.figure.PlotConstants;
 
 /**
  * The class PatternDiscoveryDialog.
  */
-public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements ModernClickListener {
+public class PatternDiscoveryDialog extends ModernDialogHelpWindow
+    implements ModernClickListener {
 
   /**
    * The constant serialVersionUID.
@@ -72,32 +74,40 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
    * The delta field.
    */
   private ModernCompactSpinner mDeltaField = new ModernCompactSpinner(0, 1,
-      SettingsService.getInstance().getAsDouble("pattern-discovery.delta"), 0.01);
+      SettingsService.getInstance().getAsDouble("pattern-discovery.delta"),
+      0.01);
 
   /**
    * The support1 field.
    */
-  private ModernCompactSpinner mPhenField = new ModernCompactSpinner(1, 100, 10);
+  private ModernCompactSpinner mPhenField = new ModernCompactSpinner(1, 100,
+      10);
 
   /**
    * The support2 field.
    */
-  private ModernCompactSpinner mControlField = new ModernCompactSpinner(1, 100, 10);
+  private ModernCompactSpinner mControlField = new ModernCompactSpinner(1, 100,
+      10);
 
   /** The m genes field. */
-  private ModernCompactSpinner mGenesField = new ModernCompactSpinner(2, 1000000,
+  private ModernCompactSpinner mGenesField = new ModernCompactSpinner(2,
+      1000000,
       SettingsService.getInstance().getAsDouble("pattern-discovery.min-genes"));
 
   /** The m check phen min sup only. */
-  private ModernTwoStateWidget mCheckPhenMinSupOnly = new ModernCheckSwitch("only");
+  private ModernTwoStateWidget mCheckPhenMinSupOnly = new ModernCheckSwitch(
+      "only");
 
   /** The m check con min sup only. */
-  private ModernTwoStateWidget mCheckConMinSupOnly = new ModernCheckSwitch("only");
+  private ModernTwoStateWidget mCheckConMinSupOnly = new ModernCheckSwitch(
+      "only");
 
   /** The m check log. */
-  private ModernTwoStateWidget mCheckLogMode = new ModernCheckSwitch(PlotConstants.MENU_LOG_TRANSFORM);
+  private ModernTwoStateWidget mCheckLogMode = new ModernCheckSwitch(
+      PlotConstants.MENU_LOG_TRANSFORM);
 
-  private ModernTwoStateWidget mCheckLog = new ModernCheckSwitch(PlotConstants.MENU_IS_LOG_TRANSFORMED);
+  private ModernTwoStateWidget mCheckLog = new ModernCheckSwitch(
+      PlotConstants.MENU_IS_LOG_TRANSFORMED);
 
   // private ModernTwoStateWidget mCheckBidirectional =
   // new ModernCheckSwitch("Intersect phenotype and control", true);
@@ -126,12 +136,14 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
   /**
    * The check plot.
    */
-  private ModernTwoStateWidget mCheckPlot = new ModernCheckSwitch(PlotConstants.MENU_PLOT, true);
+  private ModernTwoStateWidget mCheckPlot = new ModernCheckSwitch(
+      PlotConstants.MENU_PLOT, true);
 
   /**
    * The check reset.
    */
-  private ModernTwoStateWidget mCheckReset = new ModernCheckSwitch(PlotConstants.MENU_RESET_HISTORY);
+  private ModernTwoStateWidget mCheckReset = new ModernCheckSwitch(
+      PlotConstants.MENU_RESET_HISTORY);
 
   /**
    * The member groups.
@@ -152,8 +164,8 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
      * (non-Javadoc)
      * 
      * @see
-     * org.abh.lib.ui.modern.event.ModernClickListener#clicked(org.abh.lib.ui.modern
-     * .event.ModernClickEvent)
+     * org.abh.lib.ui.modern.event.ModernClickListener#clicked(org.abh.lib.ui.
+     * modern .event.ModernClickEvent)
      */
     @Override
     public void clicked(ModernClickEvent e) {
@@ -174,8 +186,8 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
      * (non-Javadoc)
      * 
      * @see
-     * org.abh.lib.ui.modern.event.ModernClickListener#clicked(org.abh.lib.ui.modern
-     * .event.ModernClickEvent)
+     * org.abh.lib.ui.modern.event.ModernClickListener#clicked(org.abh.lib.ui.
+     * modern .event.ModernClickEvent)
      */
     @Override
     public void clicked(ModernClickEvent e) {
@@ -190,14 +202,12 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
   /**
    * Instantiates a new pattern discovery dialog.
    *
-   * @param parent
-   *          the parent
-   * @param matrix
-   *          the matrix
-   * @param groups
-   *          the groups
+   * @param parent the parent
+   * @param matrix the matrix
+   * @param groups the groups
    */
-  public PatternDiscoveryDialog(ModernWindow parent, DataFrame matrix, XYSeriesGroup groups) {
+  public PatternDiscoveryDialog(ModernWindow parent, DataFrame matrix,
+      XYSeriesGroup groups) {
     super(parent, "patterndiscovery.help.url");
 
     mMatrix = matrix;
@@ -205,8 +215,8 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
 
     setTitle("Pattern Discovery");
 
-    mZScoreField = new ModernCompactSpinner(0, 1000,
-        SettingsService.getInstance().getAsDouble("pattern-discovery.min-z-score"));
+    mZScoreField = new ModernCompactSpinner(0, 1000, SettingsService
+        .getInstance().getAsDouble("pattern-discovery.min-z-score"));
     mZScoreField.setBounded(false);
 
     setup();
@@ -335,16 +345,19 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow implements Mo
    * (non-Javadoc)
    * 
    * @see
-   * org.abh.lib.ui.modern.event.ModernClickListener#clicked(org.abh.lib.ui.modern
-   * .event.ModernClickEvent)
+   * org.abh.lib.ui.modern.event.ModernClickListener#clicked(org.abh.lib.ui.
+   * modern .event.ModernClickEvent)
    */
   @Override
   public final void clicked(ModernClickEvent e) {
     if (e.getMessage().equals(UI.BUTTON_OK)) {
 
-      SettingsService.getInstance().update("pattern-discovery.delta", mDeltaField.getValue());
-      SettingsService.getInstance().update("pattern-discovery.min-genes", mGenesField.getIntValue());
-      SettingsService.getInstance().update("pattern-discovery.min-z-score", mZScoreField.getValue());
+      SettingsService.getInstance().update("pattern-discovery.delta",
+          mDeltaField.getValue());
+      SettingsService.getInstance().update("pattern-discovery.min-genes",
+          mGenesField.getIntValue());
+      SettingsService.getInstance().update("pattern-discovery.min-z-score",
+          mZScoreField.getValue());
     }
 
     super.clicked(e);

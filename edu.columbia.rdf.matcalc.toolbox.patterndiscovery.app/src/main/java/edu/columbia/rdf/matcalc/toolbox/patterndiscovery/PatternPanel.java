@@ -19,7 +19,8 @@ public class PatternPanel extends ModernComponent {
   public PatternPanel(XYSeries g, Pattern p, Color color) {
     mPattern = p;
 
-    mTitle = g.getName() + " <" + p.getComb().size() + ", " + p.size() + "> (" + p.getComb() + ")";
+    mTitle = g.getName() + " <" + p.getComb().size() + ", " + p.size() + "> ("
+        + p.getComb() + ")";
 
     mC = new ModernCheckSwitch(mTitle, true);
 

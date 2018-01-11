@@ -46,7 +46,8 @@ import org.jebtk.modern.text.ModernSubHeadingLabel;
 import edu.columbia.rdf.matcalc.MainMatCalcWindow;
 import edu.columbia.rdf.matcalc.figure.PlotConstants;
 
-public class PatternsPanel extends ModernComponent implements ModernClickListener {
+public class PatternsPanel extends ModernComponent
+    implements ModernClickListener {
 
   /**
    * 
@@ -55,17 +56,21 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 
   private ModernRadioButton mCheckUnion = new ModernRadioButton("Union", true);
 
-  private ModernRadioButton mCheckIntersect = new ModernRadioButton("Intersection");
+  private ModernRadioButton mCheckIntersect = new ModernRadioButton(
+      "Intersection");
 
-  private CheckBox mCheckPlot = new ModernCheckSwitch(PlotConstants.MENU_PLOT, true);
+  private CheckBox mCheckPlot = new ModernCheckSwitch(PlotConstants.MENU_PLOT,
+      true);
 
   private CheckBox mCheckMerge = new ModernCheckSwitch("Merge Patterns", true);
 
   private CheckBox mCheckUnique = new ModernCheckSwitch("Unique Samples", true);
 
-  private CheckBox mCheckSelectAll = new ModernCheckSwitch(UI.MENU_SELECT_ALL, true);
+  private CheckBox mCheckSelectAll = new ModernCheckSwitch(UI.MENU_SELECT_ALL,
+      true);
 
-  private ModernButton mButtonUpdate = new ModernButton(PlotConstants.MENU_UPDATE,
+  private ModernButton mButtonUpdate = new ModernButton(
+      PlotConstants.MENU_UPDATE,
       UIService.getInstance().loadIcon(RunVectorIcon.class, 16));
 
   private DataFrame mM;
@@ -86,10 +91,11 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 
   private ModernListPanel mML = new ModernListPanel();
 
-  public PatternsPanel(MainMatCalcWindow window, DataFrame m, XYSeries phenGroup, XYSeries controlGroup,
-      List<Pattern> phenPatterns, List<Pattern> phenPatterns2, List<Pattern> controlPatterns,
-      List<Pattern> controlPatterns2, XYSeriesModel groups, XYSeriesGroup comparisonGroups, boolean plot,
-      Properties properties) {
+  public PatternsPanel(MainMatCalcWindow window, DataFrame m,
+      XYSeries phenGroup, XYSeries controlGroup, List<Pattern> phenPatterns,
+      List<Pattern> phenPatterns2, List<Pattern> controlPatterns,
+      List<Pattern> controlPatterns2, XYSeriesModel groups,
+      XYSeriesGroup comparisonGroups, boolean plot, Properties properties) {
     mWindow = window;
     mM = m;
 
@@ -125,8 +131,9 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
 
     ModernComponent panel = new ModernComponent();
 
-    panel.setHeader(new ModernComponent(mCheckSelectAll,
-        BorderService.getInstance().createBorder(PADDING, PADDING, DOUBLE_PADDING, PADDING)));
+    panel.setHeader(
+        new ModernComponent(mCheckSelectAll, BorderService.getInstance()
+            .createBorder(PADDING, PADDING, DOUBLE_PADDING, PADDING)));
 
     loadPatterns(phenGroup, phenPatterns, phenGroup.getColor(), mML);
     loadPatterns(controlGroup, phenPatterns2, phenGroup.getColor(), mML);
@@ -134,8 +141,10 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
     loadPatterns(controlGroup, controlPatterns, controlGroup.getColor(), mML);
     loadPatterns(phenGroup, controlPatterns2, controlGroup.getColor(), mML);
 
-    ModernScrollPane scrollPane = new ModernScrollPane(mML).setHorizontalScrollBarPolicy(ScrollBarPolicy.NEVER)
-        .setVerticalScrollBarPolicy(ScrollBarPolicy.AUTO_SHOW).setVScrollBarLocation(ScrollBarLocation.FLOATING);
+    ModernScrollPane scrollPane = new ModernScrollPane(mML)
+        .setHorizontalScrollBarPolicy(ScrollBarPolicy.NEVER)
+        .setVerticalScrollBarPolicy(ScrollBarPolicy.AUTO_SHOW)
+        .setVScrollBarLocation(ScrollBarLocation.FLOATING);
 
     panel.setBody(scrollPane);
     setBody(panel);
@@ -220,11 +229,11 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
       }
 
       /*
-       * for (Pattern p : mPhenPatterns) { if (mPhenSelMap.get(p).isSelected()) {
-       * countMap.putAll(p); } }
+       * for (Pattern p : mPhenPatterns) { if (mPhenSelMap.get(p).isSelected())
+       * { countMap.putAll(p); } }
        * 
-       * for (Pattern p : mControlPatterns) { if (mConSelMap.get(p).isSelected()) {
-       * countMap.putAll(p); } }
+       * for (Pattern p : mControlPatterns) { if
+       * (mConSelMap.get(p).isSelected()) { countMap.putAll(p); } }
        */
 
       for (ModernListPanelItem item : mML) {
@@ -256,18 +265,20 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
       }
 
       /*
-       * for (Pattern p : mPhenPatterns) { if (mPhenSelMap.get(p).isSelected()) {
-       * CollectionUtils.addAll(p, biggestCombGenes); } }
+       * for (Pattern p : mPhenPatterns) { if (mPhenSelMap.get(p).isSelected())
+       * { CollectionUtils.addAll(p, biggestCombGenes); } }
        * 
-       * for (Pattern p : mControlPatterns) { if (mConSelMap.get(p).isSelected()) {
-       * CollectionUtils.addAll(p, biggestCombGenes); } }
+       * for (Pattern p : mControlPatterns) { if
+       * (mConSelMap.get(p).isSelected()) { CollectionUtils.addAll(p,
+       * biggestCombGenes); } }
        */
     }
 
     System.err.println("big comb " + biggestCombGenes.size());
 
     if (biggestCombGenes.size() == 0) {
-      ModernMessageDialog.createWarningDialog(mWindow, "No suitable patterns could be found.");
+      ModernMessageDialog.createWarningDialog(mWindow,
+          "No suitable patterns could be found.");
 
       return;
     }
@@ -332,8 +343,10 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
       int index = mWindow.searchHistory("Patterns");
 
       // Replace history after control curves
-      mWindow.addToHistory(index, new PatternDiscoveryPlotMatrixTransform(mWindow, "Patterns Plot", patternM, mGroups,
-          mComparisonGroups, XYSeriesModel.EMPTY_SERIES, countGroups, history, mProperties, true));
+      mWindow.addToHistory(index,
+          new PatternDiscoveryPlotMatrixTransform(mWindow, "Patterns Plot",
+              patternM, mGroups, mComparisonGroups, XYSeriesModel.EMPTY_SERIES,
+              countGroups, history, mProperties, true));
 
       // if (mCheckMerge.isSelected()) {
       // mWindow.addToHistory("Merged", patternM);
@@ -344,14 +357,17 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
         PatternPanel pp = (PatternPanel) item.getComponent();
 
         // if (pp.isSelected()) {
-        DataFrame pM = DataFrame.copyRows(mM, CollectionUtils.toList(pp.getPattern()));
+        DataFrame pM = DataFrame.copyRows(mM,
+            CollectionUtils.toList(pp.getPattern()));
 
         // mWindow.addToHistory(pp.getName(), pM);
 
         countGroups = createCountGroups(pM);
 
-        mWindow.addToHistory(new PatternDiscoveryPlotMatrixTransform(mWindow, pp.getName() + " Plot", pM, mGroups,
-            mComparisonGroups, XYSeriesModel.EMPTY_SERIES, countGroups, history, mProperties, false));
+        mWindow.addToHistory(new PatternDiscoveryPlotMatrixTransform(mWindow,
+            pp.getName() + " Plot", pM, mGroups, mComparisonGroups,
+            XYSeriesModel.EMPTY_SERIES, countGroups, history, mProperties,
+            false));
 
         // }
       }
@@ -384,11 +400,11 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
     }
 
     /*
-     * for (Pattern p : phenSelMap.keySet()) { if (phenSelMap.get(p).isSelected()) {
-     * ++ret; } }
+     * for (Pattern p : phenSelMap.keySet()) { if
+     * (phenSelMap.get(p).isSelected()) { ++ret; } }
      * 
-     * for (Pattern p : conSelMap.keySet()) { if (conSelMap.get(p).isSelected()) {
-     * ++ret; } }
+     * for (Pattern p : conSelMap.keySet()) { if (conSelMap.get(p).isSelected())
+     * { ++ret; } }
      */
 
     return ret;
@@ -400,7 +416,8 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
    * @param patterns
    * @param selMap
    */
-  private static void selectPattern(final List<Pattern> patterns, Map<Pattern, CheckBox> selMap) {
+  private static void selectPattern(final List<Pattern> patterns,
+      Map<Pattern, CheckBox> selMap) {
     // Select the smallest patterns from each
 
     Pattern maxPattern = maxPattern(patterns);
@@ -434,7 +451,10 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
     return maxPattern;
   }
 
-  private void loadPatterns(XYSeries group, List<Pattern> patterns, Color color, ModernListPanel box) {
+  private void loadPatterns(XYSeries group,
+      List<Pattern> patterns,
+      Color color,
+      ModernListPanel box) {
     // box.add(new ModernLabelBold(group.getName()));
     // //ModernSubHeadingLabel(group.getName()));
     // box.add(UI.createVGap(5));
@@ -446,9 +466,12 @@ public class PatternsPanel extends ModernComponent implements ModernClickListene
     }
   }
 
-  private void loadPatterns(XYSeries group, List<Pattern> patterns, Map<Pattern, CheckBox> selMap) {
+  private void loadPatterns(XYSeries group,
+      List<Pattern> patterns,
+      Map<Pattern, CheckBox> selMap) {
     for (Pattern p : patterns) {
-      String label = "<" + p.getComb().size() + ", " + p.size() + "> (" + p.getComb() + ")";
+      String label = "<" + p.getComb().size() + ", " + p.size() + "> ("
+          + p.getComb() + ")";
 
       ModernCheckBox c = new ModernCheckBox(label, true);
 

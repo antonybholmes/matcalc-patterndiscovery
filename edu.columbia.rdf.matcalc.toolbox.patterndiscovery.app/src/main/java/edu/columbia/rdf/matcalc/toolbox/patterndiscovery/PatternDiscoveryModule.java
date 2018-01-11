@@ -45,7 +45,8 @@ import edu.columbia.rdf.matcalc.toolbox.CalcModule;
 import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.app.PatternDiscoveryIcon;
 import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.HeatMapProperties;
 
-public class PatternDiscoveryModule extends CalcModule implements ModernClickListener {
+public class PatternDiscoveryModule extends CalcModule
+    implements ModernClickListener {
 
   // private static final int DEFAULT_POINTS =
   // SettingsService.getInstance().getAsInt("pattern-discovery.cdf.points");
@@ -55,7 +56,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
   private MainMatCalcWindow mWindow;
 
-  private static final Logger LOG = LoggerFactory.getLogger(PatternDiscoveryModule.class);
+  private static final Logger LOG = LoggerFactory
+      .getLogger(PatternDiscoveryModule.class);
 
   @Override
   public String getName() {
@@ -67,10 +69,11 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     mWindow = window;
 
     RibbonLargeButton button = new RibbonLargeButton("Pattern Discovery",
-        UIService.getInstance().loadIcon(PatternDiscoveryIcon.class, 24), "Pattern Discovery",
-        "Supervised differentially expressed genes.");
+        UIService.getInstance().loadIcon(PatternDiscoveryIcon.class, 24),
+        "Pattern Discovery", "Supervised differentially expressed genes.");
     button.addClickListener(this);
-    mWindow.getRibbon().getToolbar("Classification").getSection("Classifier").add(button);
+    mWindow.getRibbon().getToolbar("Classification").getSection("Classifier")
+        .add(button);
   }
 
   @Override
@@ -89,10 +92,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
   /**
    * Pattern discovery.
    *
-   * @param properties
-   *          the properties
-   * @throws IOException
-   *           Signals that an I/O exception has occurred.
+   * @param properties the properties
+   * @throws IOException Signals that an I/O exception has occurred.
    */
   private void patternDiscovery(Properties properties) throws IOException {
     XYSeriesModel groups = XYSeriesModel.create(mWindow.getGroups());
@@ -111,7 +112,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
       return;
     }
 
-    PatternDiscoveryDialog dialog = new PatternDiscoveryDialog(mWindow, m, mWindow.getGroups());
+    PatternDiscoveryDialog dialog = new PatternDiscoveryDialog(mWindow, m,
+        mWindow.getGroups());
 
     dialog.setVisible(true);
 
@@ -146,48 +148,59 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     boolean isLogData = dialog.getIsLogData();
     // boolean bidirectional = dialog.getBidirectional();
 
-    patternDiscovery(m, delta, g1, g2, groups, rowGroups, support1, support1Only, support2, support2Only, minGenes,
-        minZ, logMode, isLogData, plot, properties);
+    patternDiscovery(m,
+        delta,
+        g1,
+        g2,
+        groups,
+        rowGroups,
+        support1,
+        support1Only,
+        support2,
+        support2Only,
+        minGenes,
+        minZ,
+        logMode,
+        isLogData,
+        plot,
+        properties);
   }
 
   /**
    * Discover differential expression patterns.
    * 
-   * @param m
-   *          The matrix to analyze.
-   * @param delta
-   *          The max separation between experiments.
-   * @param phenGroup
-   *          The columns in the phenotype group.
-   * @param controlGroup
-   *          The columns in the control group.
-   * @param groups
-   *          All the groups in the matrix.
-   * @param rowGroups
-   *          Any row groups.
-   * @param phenSupport
-   *          Minimum support in the phenotype group.
-   * @param phenSupportOnly
-   *          Comb must contain exactly minimum support.
-   * @param controlSupport
-   *          Minimum support in the control group.
-   * @param controlSupportOnly
-   *          Comb must contain exactly minimum support.
-   * @param minGenes
-   *          Minimum number of genes in pattern.
-   * @param minZ
-   *          Minimum z-score.
-   * @param logMode
-   *          Log data.
-   * @param isLogData
-   *          Is data log transformed.
-   * @param properties
-   *          Heat map properties.
+   * @param m The matrix to analyze.
+   * @param delta The max separation between experiments.
+   * @param phenGroup The columns in the phenotype group.
+   * @param controlGroup The columns in the control group.
+   * @param groups All the groups in the matrix.
+   * @param rowGroups Any row groups.
+   * @param phenSupport Minimum support in the phenotype group.
+   * @param phenSupportOnly Comb must contain exactly minimum support.
+   * @param controlSupport Minimum support in the control group.
+   * @param controlSupportOnly Comb must contain exactly minimum support.
+   * @param minGenes Minimum number of genes in pattern.
+   * @param minZ Minimum z-score.
+   * @param logMode Log data.
+   * @param isLogData Is data log transformed.
+   * @param properties Heat map properties.
    * @throws IOException
    */
-  public void patternDiscovery(DataFrame m, double delta, XYSeries phenGroup, XYSeries controlGroup,
-      XYSeriesModel groups, XYSeriesModel rowGroups, int phenSupport, boolean phenSupportOnly, int controlSupport,
-      boolean controlSupportOnly, int minGenes, double minZ, boolean logMode, boolean isLogData, boolean plot,
+  public void patternDiscovery(DataFrame m,
+      double delta,
+      XYSeries phenGroup,
+      XYSeries controlGroup,
+      XYSeriesModel groups,
+      XYSeriesModel rowGroups,
+      int phenSupport,
+      boolean phenSupportOnly,
+      int controlSupport,
+      boolean controlSupportOnly,
+      int minGenes,
+      double minZ,
+      boolean logMode,
+      boolean isLogData,
+      boolean plot,
       Properties properties) throws IOException {
 
     XYSeriesGroup comparisonGroups = new XYSeriesGroup();
@@ -197,7 +210,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     DataFrame logM;
 
     if (logMode) {
-      logM = mWindow.addToHistory("Log2", MatrixOperations.log2(MatrixOperations.add(m, 1)));
+      logM = mWindow.addToHistory("Log2",
+          MatrixOperations.log2(MatrixOperations.add(m, 1)));
     } else {
       logM = m;
     }
@@ -216,14 +230,16 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     // Filter z scores to ensure min z scores
     //
 
-    List<Double> zscores = DoubleMatrix.diffGroupZScores(logM, phenGroup, controlGroup);
+    List<Double> zscores = DoubleMatrix
+        .diffGroupZScores(logM, phenGroup, controlGroup);
 
     DataFrame zscoresM = new DataFrame(logM);
     zscoresM.setNumRowAnnotations("Z-score", zscores);
 
     mWindow.addToHistory("Z-score", zscoresM);
 
-    List<Indexed<Integer, Double>> zscoresIndexed = CollectionUtils.index(zscores);
+    List<Indexed<Integer, Double>> zscoresIndexed = CollectionUtils
+        .index(zscores);
 
     List<Integer> indices = new ArrayList<Integer>();
 
@@ -237,7 +253,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     zscores = CollectionUtils.subList(zscores, indices);
     zscoresIndexed = CollectionUtils.index(zscores);
 
-    DataFrame zScoreFilteredM = mWindow.addToHistory("Filter z-score", DataFrame.copyRows(zscoresM, indices));
+    DataFrame zScoreFilteredM = mWindow.addToHistory("Filter z-score",
+        DataFrame.copyRows(zscoresM, indices));
 
     //
     // Fold Changes
@@ -246,9 +263,11 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     List<Double> foldChanges;
 
     if (isLogData || logMode) {
-      foldChanges = DoubleMatrix.logFoldChange(zScoreFilteredM, phenGroup, controlGroup);
+      foldChanges = DoubleMatrix
+          .logFoldChange(zScoreFilteredM, phenGroup, controlGroup);
     } else {
-      foldChanges = DoubleMatrix.foldChange(zScoreFilteredM, phenGroup, controlGroup);
+      foldChanges = DoubleMatrix
+          .foldChange(zScoreFilteredM, phenGroup, controlGroup);
     }
 
     // filter by fold changes
@@ -266,18 +285,23 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     //
 
     List<Indexed<Integer, Double>> posZScores = CollectionUtils
-        .reverseSort(CollectionUtils.subList(zscoresIndexed, MathUtils.gt(zscoresIndexed, 0)));
+        .reverseSort(CollectionUtils.subList(zscoresIndexed,
+            MathUtils.gt(zscoresIndexed, 0)));
 
-    DataFrame posZM = DataFrame.copyRows(foldChangesM, IndexedInt.indices(posZScores));
+    DataFrame posZM = DataFrame.copyRows(foldChangesM,
+        IndexedInt.indices(posZScores));
 
     List<Indexed<Integer, Double>> negZScores = CollectionUtils
-        .sort(CollectionUtils.subList(zscoresIndexed, MathUtils.lt(zscoresIndexed, 0)));
+        .sort(CollectionUtils.subList(zscoresIndexed,
+            MathUtils.lt(zscoresIndexed, 0)));
 
-    DataFrame negZM = DataFrame.copyRows(foldChangesM, IndexedInt.indices(negZScores));
+    DataFrame negZM = DataFrame.copyRows(foldChangesM,
+        IndexedInt.indices(negZScores));
 
     // Now make a list of the new zscores in the correct order,
     // positive decreasing, negative, decreasing
-    List<Indexed<Integer, Double>> sortedZscores = CollectionUtils.cat(posZScores, negZScores);
+    List<Indexed<Integer, Double>> sortedZscores = CollectionUtils
+        .cat(posZScores, negZScores);
 
     // Put the zscores in order
     indices = IndexedInt.indices(sortedZscores);
@@ -286,7 +310,9 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
     System.err.println("zscore " + zscores + " " + indices);
 
-    DataFrame zScoreSortedM = DataFrame.copyRows(foldChangesM, indices); // mWindow.addToHistory("Sort by z-score",
+    DataFrame zScoreSortedM = DataFrame.copyRows(foldChangesM, indices); // mWindow.addToHistory("Sort
+                                                                         // by
+                                                                         // z-score",
                                                                          // AnnotatableMatrix.copyRows(foldChangesM,
                                                                          // indices));
 
@@ -310,20 +336,35 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     // Where the phenotype stands out from the control
 
     Map<Integer, IterMap<Comb, Set<Integer>>> phenPatterns1 = DefaultTreeMap
-        .create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
+        .create(new DefaultTreeMapCreator<Comb, Set<Integer>>(
+            new TreeSetCreator<Integer>()));
 
-    patterns(phenNormM, phenSupport, delta, phenSupportOnly, minGenes, 0, phenPatterns1);
+    patterns(phenNormM,
+        phenSupport,
+        delta,
+        phenSupportOnly,
+        minGenes,
+        0,
+        phenPatterns1);
 
     System.err.println("phen " + phenPatterns1.size());
 
     controlNormM = normPhenToControl(posZM, controlGroup, phenGroup);
 
     Map<Integer, IterMap<Comb, Set<Integer>>> phenPatterns2 = DefaultTreeMap
-        .create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
+        .create(new DefaultTreeMapCreator<Comb, Set<Integer>>(
+            new TreeSetCreator<Integer>()));
 
-    patterns(controlNormM, controlSupport, delta, controlSupportOnly, minGenes, 0, phenPatterns2);
+    patterns(controlNormM,
+        controlSupport,
+        delta,
+        controlSupportOnly,
+        minGenes,
+        0,
+        phenPatterns2);
 
-    // mWindow.addToHistory("Build control curves", normPhenToControl(zScoreSortedM,
+    // mWindow.addToHistory("Build control curves",
+    // normPhenToControl(zScoreSortedM,
     // controlGroup, phenGroup));
     // controlNormM = normPhenToControl(zScoreSortedM, controlGroup, phenGroup);
     controlNormM = normPhenToControl(negZM, controlGroup, phenGroup);
@@ -337,27 +378,45 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     int offset = posZM.getRows();
 
     Map<Integer, IterMap<Comb, Set<Integer>>> controlPatterns1 = DefaultTreeMap
-        .create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
+        .create(new DefaultTreeMapCreator<Comb, Set<Integer>>(
+            new TreeSetCreator<Integer>()));
 
-    patterns(controlNormM, controlSupport, delta, controlSupportOnly, minGenes, offset, controlPatterns1);
+    patterns(controlNormM,
+        controlSupport,
+        delta,
+        controlSupportOnly,
+        minGenes,
+        offset,
+        controlPatterns1);
 
     phenNormM = normPhenToControl(negZM, phenGroup, controlGroup);
 
     Map<Integer, IterMap<Comb, Set<Integer>>> controlPatterns2 = DefaultTreeMap
-        .create(new DefaultTreeMapCreator<Comb, Set<Integer>>(new TreeSetCreator<Integer>()));
+        .create(new DefaultTreeMapCreator<Comb, Set<Integer>>(
+            new TreeSetCreator<Integer>()));
 
-    patterns(phenNormM, phenSupport, delta, phenSupportOnly, minGenes, offset, controlPatterns2);
+    patterns(phenNormM,
+        phenSupport,
+        delta,
+        phenSupportOnly,
+        minGenes,
+        offset,
+        controlPatterns2);
 
-    PatternsPanel patternsPanel = new PatternsPanel(mWindow, zScoreSortedM, phenGroup, controlGroup,
-        sortPatterns(phenPatterns1), sortPatterns(phenPatterns2), sortPatterns(controlPatterns1),
-        sortPatterns(controlPatterns2), groups, comparisonGroups, plot, properties);
+    PatternsPanel patternsPanel = new PatternsPanel(mWindow, zScoreSortedM,
+        phenGroup, controlGroup, sortPatterns(phenPatterns1),
+        sortPatterns(phenPatterns2), sortPatterns(controlPatterns1),
+        sortPatterns(controlPatterns2), groups, comparisonGroups, plot,
+        properties);
 
-    mWindow.addToHistory(new PatternsPanelTransform(mWindow, patternsPanel, zScoreSortedM));
+    mWindow.addToHistory(
+        new PatternsPanelTransform(mWindow, patternsPanel, zScoreSortedM));
 
     patternsPanel.filter();
   }
 
-  public void setLeftPane(List<Pattern> phenPatternMap, List<Pattern> controlPatternMap) {
+  public void setLeftPane(List<Pattern> phenPatternMap,
+      List<Pattern> controlPatternMap) {
   }
 
   /**
@@ -369,16 +428,28 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
    * @param minGenes
    * @return
    */
-  public static void patterns(final DataFrame phenM, int phenSupport, double delta, boolean minSupportOnly,
-      int minGenes, int offset, Map<Integer, IterMap<Comb, Set<Integer>>> maximalPatterns) {
+  public static void patterns(final DataFrame phenM,
+      int phenSupport,
+      double delta,
+      boolean minSupportOnly,
+      int minGenes,
+      int offset,
+      Map<Integer, IterMap<Comb, Set<Integer>>> maximalPatterns) {
     int ng = phenM.getRows();
     int ne = phenM.getCols();
 
     // Normalize control
 
-    Map<Integer, List<Comb>> elPatternMap = DefaultTreeMap.create(new ArrayListCreator<Comb>());
+    Map<Integer, List<Comb>> elPatternMap = DefaultTreeMap
+        .create(new ArrayListCreator<Comb>());
 
-    elementaryPatterns(phenM, ng, ne, delta, phenSupport, minSupportOnly, elPatternMap);
+    elementaryPatterns(phenM,
+        ng,
+        ne,
+        delta,
+        phenSupport,
+        minSupportOnly,
+        elPatternMap);
 
     for (int i : elPatternMap.keySet()) {
       for (Comb c : elPatternMap.get(i)) {
@@ -392,30 +463,41 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
     // Make a list of all genes with patterns
 
-    growPatterns(ng, ne, elPatternMap, phenSupport, minSupportOnly, minGenes, offset, maximalPatterns);
+    growPatterns(ng,
+        ne,
+        elPatternMap,
+        phenSupport,
+        minSupportOnly,
+        minGenes,
+        offset,
+        maximalPatterns);
 
     // For each gene, we know which patterns/experiments it supports
     // return maximalPatterns;
   }
 
   /**
-   * Returns patterns mapped to the support size. If minSupportOnly is true, then
-   * each pattern will be the largest pattern with a support exactly equal to
-   * minSupport, otherwise it will be the largest pattern with a support greater
-   * than or equal to minSupport.
+   * Returns patterns mapped to the support size. If minSupportOnly is true,
+   * then each pattern will be the largest pattern with a support exactly equal
+   * to minSupport, otherwise it will be the largest pattern with a support
+   * greater than or equal to minSupport.
    * 
-   * @param ng
-   *          The number of genes
-   * @param ne
-   *          The number of experiments
+   * @param ng The number of genes
+   * @param ne The number of experiments
    * @param elementaryPatterns
    * @param minSupport
    * @param minGenes
    * @param usedCombs
    * @return
    */
-  private static void growPatterns(int ng, int ne, Map<Integer, List<Comb>> elementaryPatterns, int minSupport,
-      boolean minSupportOnly, int minGenes, int offset, Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
+  private static void growPatterns(int ng,
+      int ne,
+      Map<Integer, List<Comb>> elementaryPatterns,
+      int minSupport,
+      boolean minSupportOnly,
+      int minGenes,
+      int offset,
+      Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
 
     // The method as written in the paper seems extremely inefficient
     // since it needlessly generates all possible tests at once n(n-1)/2.
@@ -444,7 +526,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
           int sn = source.size();
 
-          // System.err.println("hmm " + source.toString() + " " + source.size() + " " +
+          // System.err.println("hmm " + source.toString() + " " + source.size()
+          // + " " +
           // sn + " " + sg);
 
           // Must have a support at least equal to what we want
@@ -478,12 +561,14 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
                 continue;
               }
 
-              Comb intersectionComb = CombService.getInstance().intersect(source, target);
+              Comb intersectionComb = CombService.getInstance()
+                  .intersect(source, target);
 
               int n = intersectionComb.size();
 
               if (n >= support) {
-                System.err.println("intersect " + source.toString() + ":" + target.toString() + " " + n + " " + tg);
+                System.err.println("intersect " + source.toString() + ":"
+                    + target.toString() + " " + n + " " + tg);
 
                 patternMap.get(n).get(intersectionComb).add(tg + offset);
               }
@@ -516,18 +601,19 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
   /**
    * We test whether a comb is a super pattern of any of the existing combs we
-   * have created. Since the genes are processed in the same order, if a comb is a
-   * super comb (equal to or bigger than an existing comb) of another, then it
-   * must have been added to the pattern of a previous gene. If this is the case,
-   * this new pattern cannot be bigger than an existing one since the existing
-   * pattern must contain at least one more gene. We can therefore abandon
-   * creating a pattern using this comb as a starting point.
+   * have created. Since the genes are processed in the same order, if a comb is
+   * a super comb (equal to or bigger than an existing comb) of another, then it
+   * must have been added to the pattern of a previous gene. If this is the
+   * case, this new pattern cannot be bigger than an existing one since the
+   * existing pattern must contain at least one more gene. We can therefore
+   * abandon creating a pattern using this comb as a starting point.
    * 
    * @param source
    * @param patternMap
    * @return
    */
-  private static boolean isSuperComb(Comb source, final Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
+  private static boolean isSuperComb(Comb source,
+      final Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
 
     for (int cs : patternMap.keySet()) {
       for (Comb c : patternMap.get(cs).keySet()) {
@@ -551,12 +637,18 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
    * @param minSupport
    * @return
    */
-  private static void elementaryPatterns(DataFrame m, int ng, int ne, double delta, int minSupport,
-      boolean minSupportOnly, Map<Integer, List<Comb>> combMap) {
+  private static void elementaryPatterns(DataFrame m,
+      int ng,
+      int ne,
+      double delta,
+      int minSupport,
+      boolean minSupportOnly,
+      Map<Integer, List<Comb>> combMap) {
     for (int sg = 0; sg < ng; ++sg) {
       // Sort values in order and keep track of which sample (column)
       // they are
-      List<Indexed<Integer, Double>> p1 = CollectionUtils.sort(CollectionUtils.index(m.rowToDoubleArray(sg)));
+      List<Indexed<Integer, Double>> p1 = CollectionUtils
+          .sort(CollectionUtils.index(m.rowToDoubleArray(sg)));
 
       // Try to find all possible supports of a given size for the
       // gene
@@ -607,7 +699,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
             combMap.get(sg).add(comb);
 
             if (comb.toString().startsWith("1, 2")) {
-              System.err.println("begin " + sg + " " + comb + " " + clusterSize + " " + indices);
+              System.err.println("begin " + sg + " " + comb + " " + clusterSize
+                  + " " + indices);
             }
           }
         }
@@ -670,13 +763,16 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
    * @param controlGroup
    * @return
    */
-  private static DataFrame normPhenToControl(final DataFrame m, final MatrixGroup phenGroup,
+  private static DataFrame normPhenToControl(final DataFrame m,
+      final MatrixGroup phenGroup,
       final MatrixGroup controlGroup) {
     List<Integer> phenIndices = MatrixGroup.findColumnIndices(m, phenGroup);
 
-    List<Integer> controlIndices = MatrixGroup.findColumnIndices(m, controlGroup);
+    List<Integer> controlIndices = MatrixGroup.findColumnIndices(m,
+        controlGroup);
 
-    DataFrame ret = DataFrame.createNumericalMatrix(m.getRows(), phenIndices.size());
+    DataFrame ret = DataFrame.createNumericalMatrix(m.getRows(),
+        phenIndices.size());
 
     DataFrame.copyRowAnnotations(m, ret);
 
@@ -695,10 +791,12 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     //
 
     for (int i = 0; i < m.getRows(); ++i) {
-      double[] phenPoints = CollectionUtils.subList(m.rowToDoubleArray(i), phenIndices);
+      double[] phenPoints = CollectionUtils.subList(m.rowToDoubleArray(i),
+          phenIndices);
 
-      double[] controlPoints = CollectionUtils.subList(m.rowToDoubleArray(i), controlIndices); // MatrixOperations.rowToList(m,
-                                                                                               // i, controlIndices);
+      double[] controlPoints = CollectionUtils.subList(m.rowToDoubleArray(i),
+          controlIndices); // MatrixOperations.rowToList(m,
+                           // i, controlIndices);
 
       Arrays.sort(phenPoints);
       Arrays.sort(controlPoints);
@@ -728,7 +826,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     return ret;
   }
 
-  public static <X extends MatrixGroup> DataFrame groupZScoreMatrix(DataFrame m, XYSeriesGroup comparisonGroups,
+  public static <X extends MatrixGroup> DataFrame groupZScoreMatrix(DataFrame m,
+      XYSeriesGroup comparisonGroups,
       List<X> groups) {
 
     DataFrame ret = DataFrame.createNumericalMatrix(m);
@@ -737,7 +836,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     // DataFrame.copyRowAnnotations(m, ret);
 
     // We normalize the comparison groups separately to the the others
-    List<List<Integer>> comparisonIndices = MatrixGroup.findColumnIndices(m, comparisonGroups);
+    List<List<Integer>> comparisonIndices = MatrixGroup.findColumnIndices(m,
+        comparisonGroups);
 
     for (XYSeries g : comparisonGroups) {
       System.err.println("used " + g.getName());
@@ -745,7 +845,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
 
     // We ignore these indices when calculating the means for
     // the other groups
-    Set<Integer> used = CollectionUtils.toSet(CollectionUtils.flatten(comparisonIndices));
+    Set<Integer> used = CollectionUtils
+        .toSet(CollectionUtils.flatten(comparisonIndices));
 
     System.err.println("used " + used);
 
@@ -799,12 +900,13 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     // Normalize the comparisons
 
     /*
-     * for (int i = 0; i < m.getRowCount(); ++i) { double mean = 0; double sd = 0;
+     * for (int i = 0; i < m.getRowCount(); ++i) { double mean = 0; double sd =
+     * 0;
      * 
      * int groupCount = 0;
      * 
-     * for (List<Integer> indices : comparisonIndices) { if (indices.size() == 0) {
-     * continue; }
+     * for (List<Integer> indices : comparisonIndices) { if (indices.size() ==
+     * 0) { continue; }
      * 
      * List<Double> d1 = new ArrayList<Double>(indices.size());
      * 
@@ -817,17 +919,18 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
      * 
      * mean /= groupCount; sd /= groupCount;
      * 
-     * // Normalize the values for (List<Integer> indices : comparisonIndices) { if
-     * (indices.size() == 0) { continue; }
+     * // Normalize the values for (List<Integer> indices : comparisonIndices) {
+     * if (indices.size() == 0) { continue; }
      * 
-     * for (int c : indices) { ret.setValue(i, c, (m.getValue(i, c) - mean) / sd); }
-     * } }
+     * for (int c : indices) { ret.setValue(i, c, (m.getValue(i, c) - mean) /
+     * sd); } } }
      */
 
     return ret;
   }
 
-  public static void filterPatterns(int minGenes, Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
+  public static void filterPatterns(int minGenes,
+      Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
     for (int cs : patternMap.keySet()) {
       List<Comb> rem = new ArrayList<Comb>(patternMap.size());
 
@@ -848,7 +951,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
     }
   }
 
-  public static List<Pattern> sortPatterns(Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
+  public static List<Pattern> sortPatterns(
+      Map<Integer, IterMap<Comb, Set<Integer>>> patternMap) {
     List<Pattern> patterns = new ArrayList<Pattern>();
 
     for (int cs : patternMap.keySet()) {
@@ -872,7 +976,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
   }
 
   @SafeVarargs
-  public static List<Pattern> sortPatterns(Map<Integer, Map<Comb, Set<Integer>>> patternMap,
+  public static List<Pattern> sortPatterns(
+      Map<Integer, Map<Comb, Set<Integer>>> patternMap,
       Map<Integer, Map<Comb, Set<Integer>>>... patternMaps) {
     List<Pattern> patterns = sortPatterns(patternMap);
 
@@ -890,7 +995,8 @@ public class PatternDiscoveryModule extends CalcModule implements ModernClickLis
    * @param minGenes
    * @return
    */
-  public static Map<Integer, Pattern> maximalPatterns(Map<Integer, Map<Comb, Collection<Integer>>> patternMap,
+  public static Map<Integer, Pattern> maximalPatterns(
+      Map<Integer, Map<Comb, Collection<Integer>>> patternMap,
       int minGenes) {
     Map<Integer, Pattern> maxPatternMap = new TreeMap<Integer, Pattern>();
 

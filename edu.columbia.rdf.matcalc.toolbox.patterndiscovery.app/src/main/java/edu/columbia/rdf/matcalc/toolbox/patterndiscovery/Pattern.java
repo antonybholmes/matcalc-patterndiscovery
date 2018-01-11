@@ -36,8 +36,9 @@ public class Pattern extends BaseComb {
   }
 
   /**
-   * Merge two patterns together. The comb is the intersection of all experiments,
-   * the genes are the union of the genes from the source and target.
+   * Merge two patterns together. The comb is the intersection of all
+   * experiments, the genes are the union of the genes from the source and
+   * target.
    * 
    * @param source
    * @param target
@@ -66,22 +67,33 @@ public class Pattern extends BaseComb {
     return Comb.intersect(source.getComb(), target.getComb());
   }
 
-  public static double p(int experiments, int genes, int totalExp, int totalGenes, double delta) {
+  public static double p(int experiments,
+      int genes,
+      int totalExp,
+      int totalGenes,
+      double delta) {
     double p = 0;
 
     try {
-      double alpha = experiments * Math.pow(delta, experiments - 1) - (experiments - 1) * Math.pow(delta, experiments);
+      double alpha = experiments * Math.pow(delta, experiments - 1)
+          - (experiments - 1) * Math.pow(delta, experiments);
 
       long nt = CombinatoricsUtils.binomialCoefficient(totalGenes, genes)
           * CombinatoricsUtils.binomialCoefficient(totalExp, experiments);
 
-      System.err.println(totalGenes + " " + genes + " " + nt + " " + Math.pow(alpha, genes) + " "
+      System.err.println(totalGenes + " " + genes + " " + nt + " "
+          + Math.pow(alpha, genes) + " "
           + Math.pow(1 - alpha, totalGenes - genes) + " "
-          + Math.pow(1 - Math.pow(1 + 1.0 / experiments, genes) * Math.pow(delta, genes), totalExp - experiments)
+          + Math.pow(1
+              - Math.pow(1 + 1.0 / experiments, genes) * Math.pow(delta, genes),
+              totalExp - experiments)
           + " genes");
 
-      double nlk = nt * Math.pow(alpha, genes) * Math.pow(1 - alpha, totalGenes - genes)
-          * Math.pow(1 - Math.pow(1 + 1.0 / experiments, genes) * Math.pow(delta, genes), totalExp - experiments);
+      double nlk = nt * Math.pow(alpha, genes)
+          * Math.pow(1 - alpha, totalGenes - genes)
+          * Math.pow(1
+              - Math.pow(1 + 1.0 / experiments, genes) * Math.pow(delta, genes),
+              totalExp - experiments);
 
       p = 1 - Math.exp(-nlk);
     } catch (Exception e) {

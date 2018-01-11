@@ -46,33 +46,31 @@ import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.legacy.DifferentialExpressi
  * @author Antony Holmes Holmes
  *
  */
-public class PatternDiscoveryPlotWindow extends DifferentialExpressionPlotWindow {
+public class PatternDiscoveryPlotWindow
+    extends DifferentialExpressionPlotWindow {
   private static final long serialVersionUID = 1L;
 
   /**
    * Instantiates a new pattern discovery plot window.
    *
-   * @param appInfo
-   *          the app info
-   * @param matrix
-   *          the matrix
-   * @param comparisonGroups
-   *          the comparison groups
-   * @param groups
-   *          the all groups
-   * @param history
-   *          the history
-   * @param properties
-   *          the properties
+   * @param appInfo the app info
+   * @param matrix the matrix
+   * @param comparisonGroups the comparison groups
+   * @param groups the all groups
+   * @param history the history
+   * @param properties the properties
    */
-  public PatternDiscoveryPlotWindow(ModernRibbonWindow window, DataFrame matrix, XYSeriesModel groups,
-      XYSeriesGroup comparisonGroups, XYSeriesModel rowGroups, CountGroups countGroups, List<String> history,
+  public PatternDiscoveryPlotWindow(ModernRibbonWindow window, DataFrame matrix,
+      XYSeriesModel groups, XYSeriesGroup comparisonGroups,
+      XYSeriesModel rowGroups, CountGroups countGroups, List<String> history,
       Properties properties) {
-    super(window, "Pattern Discovery", matrix, groups, comparisonGroups, rowGroups, countGroups, history, properties);
+    super(window, "Pattern Discovery", matrix, groups, comparisonGroups,
+        rowGroups, countGroups, history, properties);
   }
 
   /*
-   * @Override public void setMatrix(DataFrame matrix) { super.setMatrix(matrix);
+   * @Override public void setMatrix(DataFrame matrix) {
+   * super.setMatrix(matrix);
    * 
    * setFormatPane(); }
    */

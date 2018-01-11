@@ -36,6 +36,7 @@ import org.jebtk.graphplot.figure.series.XYSeriesModel;
 import org.jebtk.math.matrix.DataFrame;
 import org.jebtk.modern.window.ModernRibbonWindow;
 import org.jebtk.modern.window.ModernWindow;
+
 import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.legacy.DifferentialExpressionPlotMatrixTransform;
 
 /**
@@ -44,29 +45,27 @@ import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.legacy.DifferentialExpressi
  * @author Antony Holmes Holmes
  *
  */
-public class PatternDiscoveryPlotMatrixTransform extends DifferentialExpressionPlotMatrixTransform {
+public class PatternDiscoveryPlotMatrixTransform
+    extends DifferentialExpressionPlotMatrixTransform {
   private boolean mAutoShow;
 
   /**
    * Instantiates a new pattern discovery plot matrix transform.
    *
-   * @param parent
-   *          the parent
-   * @param inputMatrix
-   *          the input matrix
-   * @param comparisonGroups
-   *          the comparison groups
-   * @param groups
-   *          the groups
-   * @param history
-   *          the history
-   * @param properties
-   *          the properties
+   * @param parent the parent
+   * @param inputMatrix the input matrix
+   * @param comparisonGroups the comparison groups
+   * @param groups the groups
+   * @param history the history
+   * @param properties the properties
    */
-  public PatternDiscoveryPlotMatrixTransform(ModernRibbonWindow parent, String title, DataFrame inputMatrix,
-      XYSeriesModel groups, XYSeriesGroup comparisonGroups, XYSeriesModel rowGroups, CountGroups countGroups,
-      List<String> history, Properties properties, boolean autoShow) {
-    super(parent, title, inputMatrix, groups, comparisonGroups, rowGroups, countGroups, history, properties);
+  public PatternDiscoveryPlotMatrixTransform(ModernRibbonWindow parent,
+      String title, DataFrame inputMatrix, XYSeriesModel groups,
+      XYSeriesGroup comparisonGroups, XYSeriesModel rowGroups,
+      CountGroups countGroups, List<String> history, Properties properties,
+      boolean autoShow) {
+    super(parent, title, inputMatrix, groups, comparisonGroups, rowGroups,
+        countGroups, history, properties);
 
     mAutoShow = autoShow;
   }
@@ -90,7 +89,8 @@ public class PatternDiscoveryPlotMatrixTransform extends DifferentialExpressionP
    */
   @Override
   public ModernWindow createWindow() {
-    return new PatternDiscoveryPlotWindow((ModernRibbonWindow) mParent, mMatrix, mGroups, mComparisonGroups, mRowGroups,
-        mCountGroups, mHistory, mProperties);
+    return new PatternDiscoveryPlotWindow((ModernRibbonWindow) mParent, mMatrix,
+        mGroups, mComparisonGroups, mRowGroups, mCountGroups, mHistory,
+        mProperties);
   }
 }
