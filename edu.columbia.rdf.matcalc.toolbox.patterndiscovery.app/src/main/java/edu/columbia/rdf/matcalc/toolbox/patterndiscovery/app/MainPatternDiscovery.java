@@ -12,7 +12,7 @@ import org.jebtk.modern.theme.ThemeService;
 import org.xml.sax.SAXException;
 
 import edu.columbia.rdf.matcalc.MainMatCalc;
-import edu.columbia.rdf.matcalc.ModuleLoader;
+import edu.columbia.rdf.matcalc.BasicModuleLoader;
 import edu.columbia.rdf.matcalc.bio.BioModuleLoader;
 import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.PatternDiscoveryModule;
 
@@ -28,7 +28,7 @@ public class MainPatternDiscovery {
 
     ThemeService.getInstance().setTheme(ColorTheme.ORANGE);
 
-    ModuleLoader ml = new BioModuleLoader();
+    BasicModuleLoader ml = new BioModuleLoader();
 
     ml.addModule(PatternDiscoveryModule.class);
 
