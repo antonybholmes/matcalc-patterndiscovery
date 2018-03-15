@@ -338,7 +338,7 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow
 
     // content.setFooter(box);
 
-    setDialogCardContent(box);
+    setCard(box);
   }
 
   /*
