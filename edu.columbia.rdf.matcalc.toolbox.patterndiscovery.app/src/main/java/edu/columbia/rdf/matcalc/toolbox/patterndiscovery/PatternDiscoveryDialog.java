@@ -74,7 +74,7 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow
    * The delta field.
    */
   private ModernCompactSpinner mDeltaField = new ModernCompactSpinner(0, 1,
-      SettingsService.getInstance().getAsDouble("pattern-discovery.delta"),
+      SettingsService.getInstance().getDouble("pattern-discovery.delta"),
       0.01);
 
   /**
@@ -92,7 +92,7 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow
   /** The m genes field. */
   private ModernCompactSpinner mGenesField = new ModernCompactSpinner(2,
       1000000,
-      SettingsService.getInstance().getAsDouble("pattern-discovery.min-genes"));
+      SettingsService.getInstance().getDouble("pattern-discovery.min-genes"));
 
   /** The m check phen min sup only. */
   private ModernTwoStateWidget mCheckPhenMinSupOnly = new ModernCheckSwitch(
@@ -216,7 +216,7 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow
     setTitle("Pattern Discovery");
 
     mZScoreField = new ModernCompactSpinner(0, 1000, SettingsService
-        .getInstance().getAsDouble("pattern-discovery.min-z-score"));
+        .getInstance().getDouble("pattern-discovery.min-z-score"));
     mZScoreField.setBounded(false);
 
     setup();

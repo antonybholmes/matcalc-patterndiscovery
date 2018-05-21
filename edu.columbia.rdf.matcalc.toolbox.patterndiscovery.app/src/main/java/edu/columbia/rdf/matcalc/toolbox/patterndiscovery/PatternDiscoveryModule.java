@@ -32,7 +32,7 @@ import org.jebtk.math.matrix.utils.MatrixOperations;
 import org.jebtk.math.statistics.KernelDensity;
 import org.jebtk.math.statistics.NormKernelDensity;
 import org.jebtk.math.statistics.Statistics;
-import org.jebtk.modern.UIService;
+import org.jebtk.modern.AssetService;
 import org.jebtk.modern.dialog.ModernDialogStatus;
 import org.jebtk.modern.event.ModernClickEvent;
 import org.jebtk.modern.event.ModernClickListener;
@@ -49,7 +49,7 @@ public class PatternDiscoveryModule extends CalcModule
     implements ModernClickListener {
 
   // private static final int DEFAULT_POINTS =
-  // SettingsService.getInstance().getAsInt("pattern-discovery.cdf.points");
+  // SettingsService.getInstance().getInt("pattern-discovery.cdf.points");
 
   // private static final List<Double> EVAL_POINTS =
   // Linspace.generate(0, 1, DEFAULT_POINTS);
@@ -69,7 +69,7 @@ public class PatternDiscoveryModule extends CalcModule
     mWindow = window;
 
     RibbonLargeButton button = new RibbonLargeButton("Pattern Discovery",
-        UIService.getInstance().loadIcon(PatternDiscoveryIcon.class, 24),
+        AssetService.getInstance().loadIcon(PatternDiscoveryIcon.class, 24),
         "Pattern Discovery", "Supervised differentially expressed genes.");
     button.addClickListener(this);
     mWindow.getRibbon().getToolbar("Classification").getSection("Classifier")

@@ -22,7 +22,7 @@ import org.jebtk.math.matrix.DataFrame;
 import org.jebtk.modern.BorderService;
 import org.jebtk.modern.ModernComponent;
 import org.jebtk.modern.UI;
-import org.jebtk.modern.UIService;
+import org.jebtk.modern.AssetService;
 import org.jebtk.modern.button.CheckBox;
 import org.jebtk.modern.button.ModernButton;
 import org.jebtk.modern.button.ModernButtonGroup;
@@ -71,7 +71,7 @@ public class PatternsPanel extends ModernComponent
 
   private ModernButton mButtonUpdate = new ModernButton(
       PlotConstants.MENU_UPDATE,
-      UIService.getInstance().loadIcon(RunVectorIcon.class, 16));
+      AssetService.getInstance().loadIcon(RunVectorIcon.class, 16));
 
   private DataFrame mM;
 
