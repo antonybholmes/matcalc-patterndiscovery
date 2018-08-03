@@ -230,11 +230,11 @@ public class PatternDiscoveryModule extends CalcModule
     // Filter z scores to ensure min z scores
     //
 
-    List<Double> zscores = DoubleMatrix
+    double[] zscores = DoubleMatrix
         .diffGroupZScores(logM, phenGroup, controlGroup);
 
     DataFrame zscoresM = new DataFrame(logM);
-    zscoresM.setNumRowAnnotations("Z-score", zscores);
+    zscoresM.setRowAnnotations("Z-score", zscores);
 
     mWindow.addToHistory("Z-score", zscoresM);
 
@@ -260,7 +260,7 @@ public class PatternDiscoveryModule extends CalcModule
     // Fold Changes
     //
 
-    List<Double> foldChanges;
+    double[] foldChanges;
 
     if (isLogData || logMode) {
       foldChanges = DoubleMatrix
@@ -276,7 +276,7 @@ public class PatternDiscoveryModule extends CalcModule
     String name = isLogData || logMode ? "Log fold change" : "Fold change";
 
     DataFrame foldChangesM = new DataFrame(zScoreFilteredM);
-    foldChangesM.setNumRowAnnotations(name, foldChanges);
+    foldChangesM.setRowAnnotations(name, foldChanges);
 
     mWindow.addToHistory(name, foldChangesM);
 
@@ -347,8 +347,10 @@ public class PatternDiscoveryModule extends CalcModule
         0,
         phenPatterns1);
 
-    System.err.println("phen " + phenPatterns1.size());
-
+ 
+    // phenotype patterns 2 represent the patterns in the positive half
+    // that are found between the control and the phenotype since the
+    // tests are not symmetric
     controlNormM = normPhenToControl(posZM, controlGroup, phenGroup);
 
     Map<Integer, IterMap<Comb, Set<Integer>>> phenPatterns2 = DefaultTreeMap
@@ -371,10 +373,11 @@ public class PatternDiscoveryModule extends CalcModule
 
     // Where the control stands out from the phenotype. Should be similar
     // to phen patterns but cannot be guaranteed.
+    
+    
     // Since we are using the lower half of the matrix, the gene indices
     // need to be offset by the number of rows in the positive matrix so
     // that the indices remain consistent with the whole matrix.
-
     int offset = posZM.getRows();
 
     Map<Integer, IterMap<Comb, Set<Integer>>> controlPatterns1 = DefaultTreeMap

@@ -228,14 +228,6 @@ public class PatternsPanel extends ModernComponent
         }
       }
 
-      /*
-       * for (Pattern p : mPhenPatterns) { if (mPhenSelMap.get(p).isSelected())
-       * { countMap.putAll(p); } }
-       * 
-       * for (Pattern p : mControlPatterns) { if
-       * (mConSelMap.get(p).isSelected()) { countMap.putAll(p); } }
-       */
-
       for (ModernListPanelItem item : mML) {
         PatternPanel pp = (PatternPanel) item.getComponent();
 
@@ -246,12 +238,6 @@ public class PatternsPanel extends ModernComponent
             }
           }
         }
-
-        // for (int g : countMap.keySet()) {
-        // if (countMap.get(g) == sn) {
-        // biggestCombGenes.add(g);
-        // }
-        // }
       }
     } else {
       // Union of all genes
@@ -274,8 +260,6 @@ public class PatternsPanel extends ModernComponent
        */
     }
 
-    System.err.println("big comb " + biggestCombGenes.size());
-
     if (biggestCombGenes.size() == 0) {
       ModernMessageDialog.createWarningDialog(mWindow,
           "No suitable patterns could be found.");
@@ -296,7 +280,7 @@ public class PatternsPanel extends ModernComponent
     // CollectionUtils.sort(CollectionUtils.intersect(phenPatterns.keySet(),
     // controlPatterns.keySet()));
 
-    DataFrame patternM = DataFrame.copyRows(mM, biggestCombGenes);
+    DataFrame biggestPatternM = DataFrame.copyRows(mM, biggestCombGenes);
 
     if (mCheckPlot.isSelected()) {
       // Count how many are up or down
@@ -304,7 +288,7 @@ public class PatternsPanel extends ModernComponent
       CountGroups countGroups = null;
 
       if (mCheckMerge.isSelected()) {
-        countGroups = createCountGroups(patternM);
+        countGroups = createCountGroups(biggestPatternM);
       } else {
         countGroups = new CountGroups();
 
@@ -345,7 +329,7 @@ public class PatternsPanel extends ModernComponent
       // Replace history after control curves
       mWindow.addToHistory(index,
           new PatternDiscoveryPlotMatrixTransform(mWindow, "Patterns Plot",
-              patternM, mGroups, mComparisonGroups, XYSeriesModel.EMPTY_SERIES,
+              biggestPatternM, mGroups, mComparisonGroups, XYSeriesModel.EMPTY_SERIES,
               countGroups, history, mProperties, true));
 
       // if (mCheckMerge.isSelected()) {

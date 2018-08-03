@@ -320,9 +320,9 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow
     box.add(box3);
 
     box.add(UI.createVGap(30));
-    box.add(mCheckLogMode);
-    box.add(UI.createVGap(5));
     box.add(mCheckLog);
+    box.add(UI.createVGap(5));
+    box.add(mCheckLogMode);
     box.add(UI.createVGap(5));
     box.add(mCheckPlot);
 
