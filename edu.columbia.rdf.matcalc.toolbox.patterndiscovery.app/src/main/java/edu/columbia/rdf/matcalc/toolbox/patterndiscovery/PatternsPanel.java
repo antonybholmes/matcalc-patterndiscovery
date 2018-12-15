@@ -327,13 +327,13 @@ public class PatternsPanel extends ModernComponent
       int index = mWindow.searchHistory("Patterns");
 
       // Replace history after control curves
-      mWindow.addToHistory(index,
+      mWindow.history().addToHistory(index,
           new PatternDiscoveryPlotMatrixTransform(mWindow, "Patterns Plot",
               biggestPatternM, mGroups, mComparisonGroups, XYSeriesModel.EMPTY_SERIES,
               countGroups, history, mProperties, true));
 
       // if (mCheckMerge.isSelected()) {
-      // mWindow.addToHistory("Merged", patternM);
+      // mWindow.history().addToHistory("Merged", patternM);
       // } else {
       // Create a separate matrix for each pattern
 
@@ -344,11 +344,11 @@ public class PatternsPanel extends ModernComponent
         DataFrame pM = DataFrame.copyRows(mM,
             CollectionUtils.toList(pp.getPattern()));
 
-        // mWindow.addToHistory(pp.getName(), pM);
+        // mWindow.history().addToHistory(pp.getName(), pM);
 
         countGroups = createCountGroups(pM);
 
-        mWindow.addToHistory(new PatternDiscoveryPlotMatrixTransform(mWindow,
+        mWindow.history().addToHistory(new PatternDiscoveryPlotMatrixTransform(mWindow,
             pp.getName() + " Plot", pM, mGroups, mComparisonGroups,
             XYSeriesModel.EMPTY_SERIES, countGroups, history, mProperties,
             false));
@@ -361,7 +361,7 @@ public class PatternsPanel extends ModernComponent
       index = mWindow.searchHistory("Patterns Plot");
       mWindow.selectHistory(index);
 
-      // mWindow.addToHistory("Results", patternM);
+      // mWindow.history().addToHistory("Results", patternM);
     }
   }
 

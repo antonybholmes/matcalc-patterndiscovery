@@ -41,11 +41,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.columbia.rdf.matcalc.MainMatCalcWindow;
-import edu.columbia.rdf.matcalc.toolbox.CalcModule;
+import edu.columbia.rdf.matcalc.toolbox.Module;
 import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.app.PatternDiscoveryIcon;
 import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.HeatMapProperties;
 
-public class PatternDiscoveryModule extends CalcModule
+public class PatternDiscoveryModule extends Module
     implements ModernClickListener {
 
   // private static final int DEFAULT_POINTS =
@@ -210,7 +210,7 @@ public class PatternDiscoveryModule extends CalcModule
     DataFrame logM;
 
     if (logMode) {
-      logM = mWindow.addToHistory("Log2",
+      logM = mWindow.history().addToHistory("Log2",
           MatrixOperations.log2(MatrixOperations.add(m, 1)));
     } else {
       logM = m;
@@ -223,7 +223,7 @@ public class PatternDiscoveryModule extends CalcModule
 
     // Rule of thumb, lets look at genes where at least half the
     // samples are non zero
-    // DataFrame filterM = m; //mWindow.addToHistory("Min Exp Filter",
+    // DataFrame filterM = m; //mWindow.history().addToHistory("Min Exp Filter",
     // MatrixOperations.minExpFilter(m, 0.01, indices.size() / 2));
 
     //
@@ -236,7 +236,7 @@ public class PatternDiscoveryModule extends CalcModule
     DataFrame zscoresM = new DataFrame(logM);
     zscoresM.setRowAnnotations("Z-score", zscores);
 
-    mWindow.addToHistory("Z-score", zscoresM);
+    mWindow.history().addToHistory("Z-score", zscoresM);
 
     List<Indexed<Integer, Double>> zscoresIndexed = CollectionUtils
         .index(zscores);
@@ -253,7 +253,7 @@ public class PatternDiscoveryModule extends CalcModule
     zscores = CollectionUtils.subList(zscores, indices);
     zscoresIndexed = CollectionUtils.index(zscores);
 
-    DataFrame zScoreFilteredM = mWindow.addToHistory("Filter z-score",
+    DataFrame zScoreFilteredM = mWindow.history().addToHistory("Filter z-score",
         DataFrame.copyRows(zscoresM, indices));
 
     //
@@ -278,7 +278,7 @@ public class PatternDiscoveryModule extends CalcModule
     DataFrame foldChangesM = new DataFrame(zScoreFilteredM);
     foldChangesM.setRowAnnotations(name, foldChanges);
 
-    mWindow.addToHistory(name, foldChangesM);
+    mWindow.history().addToHistory(name, foldChangesM);
 
     //
     // Order by pos and negative z score
@@ -310,7 +310,7 @@ public class PatternDiscoveryModule extends CalcModule
 
     System.err.println("zscore " + zscores + " " + indices);
 
-    DataFrame zScoreSortedM = DataFrame.copyRows(foldChangesM, indices); // mWindow.addToHistory("Sort
+    DataFrame zScoreSortedM = DataFrame.copyRows(foldChangesM, indices); // mWindow.history().addToHistory("Sort
                                                                          // by
                                                                          // z-score",
                                                                          // AnnotatableMatrix.copyRows(foldChangesM,
@@ -321,10 +321,10 @@ public class PatternDiscoveryModule extends CalcModule
     //
 
     // DataFrame phenStandardNormM = zScoreSortedM;
-    // //mWindow.addToHistory("Normalize To Control", normalize(orderM,
+    // //mWindow.history().addToHistory("Normalize To Control", normalize(orderM,
     // controlGroup));
 
-    // mWindow.addToHistory("Build phenotype curves",
+    // mWindow.history().addToHistory("Build phenotype curves",
     // normPhenToControl(zScoreSortedM, phenGroup, controlGroup));
 
     DataFrame phenNormM;
@@ -365,7 +365,7 @@ public class PatternDiscoveryModule extends CalcModule
         0,
         phenPatterns2);
 
-    // mWindow.addToHistory("Build control curves",
+    // mWindow.history().addToHistory("Build control curves",
     // normPhenToControl(zScoreSortedM,
     // controlGroup, phenGroup));
     // controlNormM = normPhenToControl(zScoreSortedM, controlGroup, phenGroup);
@@ -412,7 +412,7 @@ public class PatternDiscoveryModule extends CalcModule
         sortPatterns(controlPatterns2), groups, comparisonGroups, plot,
         properties);
 
-    mWindow.addToHistory(
+    mWindow.history().addToHistory(
         new PatternsPanelTransform(mWindow, patternsPanel, zScoreSortedM));
 
     patternsPanel.filter();
