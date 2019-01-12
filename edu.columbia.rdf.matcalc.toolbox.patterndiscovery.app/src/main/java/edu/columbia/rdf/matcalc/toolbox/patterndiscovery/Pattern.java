@@ -13,7 +13,7 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
  * created from the merge of two sub patterns, it must not appear equal to
  * either of the sub patterns, even if all three have the same comb.
  * 
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  *
  */
 public class Pattern extends BaseComb {

@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Cache combs since they will frequently be the same for multiple genes.
  *
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  *
  */
 public class CombService {

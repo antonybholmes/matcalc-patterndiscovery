@@ -466,7 +466,7 @@ public class PatternsPanel extends ModernComponent
   private static CountGroups createCountGroups(DataFrame m) {
     CountGroups countGroups = new CountGroups();
 
-    double[] zscores = m.getRowAnnotationValues("Z-score");
+    double[] zscores = m.getIndex().getValues("Z-score");
 
     int c = 0;
 

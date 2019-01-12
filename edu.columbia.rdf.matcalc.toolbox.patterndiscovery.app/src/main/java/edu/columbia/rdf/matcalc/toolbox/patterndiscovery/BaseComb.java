@@ -13,7 +13,7 @@ import org.jebtk.math.MathUtils;
  * considered equal and have the same hash and equals will return true, even if
  * they are are different objects.
  * 
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  *
  */
 public class BaseComb implements Comparable<BaseComb>, Iterable<Integer> {

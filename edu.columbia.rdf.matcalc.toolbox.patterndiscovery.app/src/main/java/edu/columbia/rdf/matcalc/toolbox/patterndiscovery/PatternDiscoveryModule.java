@@ -234,7 +234,7 @@ public class PatternDiscoveryModule extends Module
         .diffGroupZScores(logM, phenGroup, controlGroup);
 
     DataFrame zscoresM = new DataFrame(logM);
-    zscoresM.setRowAnnotations("Z-score", zscores);
+    zscoresM.getIndex().setAnnotation("Z-score", zscores);
 
     mWindow.history().addToHistory("Z-score", zscoresM);
 
@@ -276,7 +276,7 @@ public class PatternDiscoveryModule extends Module
     String name = isLogData || logMode ? "Log fold change" : "Fold change";
 
     DataFrame foldChangesM = new DataFrame(zScoreFilteredM);
-    foldChangesM.setRowAnnotations(name, foldChanges);
+    foldChangesM.getIndex().setAnnotation(name, foldChanges);
 
     mWindow.history().addToHistory(name, foldChangesM);
 
@@ -651,7 +651,7 @@ public class PatternDiscoveryModule extends Module
       // Sort values in order and keep track of which sample (column)
       // they are
       List<Indexed<Integer, Double>> p1 = CollectionUtils
-          .sort(CollectionUtils.index(m.rowToDoubleArray(sg)));
+          .sort(CollectionUtils.index(m.rowToDouble(sg)));
 
       // Try to find all possible supports of a given size for the
       // gene
@@ -777,7 +777,7 @@ public class PatternDiscoveryModule extends Module
     DataFrame ret = DataFrame.createNumericalMatrix(m.getRows(),
         phenIndices.size());
 
-    DataFrame.copyRowAnnotations(m, ret);
+    DataFrame.copyIndex(m, ret);
 
     //
     // First copy column names
@@ -794,10 +794,10 @@ public class PatternDiscoveryModule extends Module
     //
 
     for (int i = 0; i < m.getRows(); ++i) {
-      double[] phenPoints = CollectionUtils.subList(m.rowToDoubleArray(i),
+      double[] phenPoints = CollectionUtils.subList(m.rowToDouble(i),
           phenIndices);
 
-      double[] controlPoints = CollectionUtils.subList(m.rowToDoubleArray(i),
+      double[] controlPoints = CollectionUtils.subList(m.rowToDouble(i),
           controlIndices); // MatrixOperations.rowToList(m,
                            // i, controlIndices);
 
@@ -835,8 +835,8 @@ public class PatternDiscoveryModule extends Module
 
     DataFrame ret = DataFrame.createNumericalMatrix(m);
 
-    // DataFrame.copyColumnAnnotations(m, ret);
-    // DataFrame.copyRowAnnotations(m, ret);
+    // DataFrame.copyColumnHeaders(m, ret);
+    // DataFrame.copyIndex(m, ret);
 
     // We normalize the comparison groups separately to the the others
     List<List<Integer>> comparisonIndices = MatrixGroup.findColumnIndices(m,

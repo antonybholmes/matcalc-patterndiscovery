@@ -42,7 +42,7 @@ import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.legacy.DifferentialExpressi
 /**
  * Transform the rows of a matrix.
  * 
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  *
  */
 public class PatternDiscoveryPlotMatrixTransform

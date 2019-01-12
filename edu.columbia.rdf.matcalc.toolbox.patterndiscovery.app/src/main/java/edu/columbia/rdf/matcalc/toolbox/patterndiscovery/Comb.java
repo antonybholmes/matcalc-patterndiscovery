@@ -9,7 +9,7 @@ import java.util.List;
  * considered equal and have the same hash and equals will return true, even if
  * they are are different objects.
  * 
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  *
  */
 public class Comb extends BaseComb {
