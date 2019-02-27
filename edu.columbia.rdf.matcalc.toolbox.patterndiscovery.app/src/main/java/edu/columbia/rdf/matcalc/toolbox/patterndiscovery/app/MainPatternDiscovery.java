@@ -11,8 +11,8 @@ import org.jebtk.modern.ColorTheme;
 import org.jebtk.modern.theme.ThemeService;
 import org.xml.sax.SAXException;
 
-import edu.columbia.rdf.matcalc.MainMatCalc;
 import edu.columbia.rdf.matcalc.BasicModuleLoader;
+import edu.columbia.rdf.matcalc.MainMatCalc;
 import edu.columbia.rdf.matcalc.bio.BioModuleLoader;
 import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.PatternDiscoveryModule;
 
