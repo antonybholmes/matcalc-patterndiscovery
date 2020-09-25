@@ -29,7 +29,7 @@ package edu.columbia.rdf.matcalc.toolbox.patterndiscovery;
 
 import java.util.List;
 
-import org.jebtk.core.Properties;
+import org.jebtk.core.Props;
 import org.jebtk.graphplot.figure.heatmap.legacy.CountGroups;
 import org.jebtk.graphplot.figure.series.XYSeriesGroup;
 import org.jebtk.graphplot.figure.series.XYSeriesModel;
@@ -62,7 +62,7 @@ public class PatternDiscoveryPlotMatrixTransform
   public PatternDiscoveryPlotMatrixTransform(ModernRibbonWindow parent,
       String title, DataFrame inputMatrix, XYSeriesModel groups,
       XYSeriesGroup comparisonGroups, XYSeriesModel rowGroups,
-      CountGroups countGroups, List<String> history, Properties properties,
+      CountGroups countGroups, List<String> history, Props properties,
       boolean autoShow) {
     super(parent, title, inputMatrix, groups, comparisonGroups, rowGroups,
         countGroups, history, properties);

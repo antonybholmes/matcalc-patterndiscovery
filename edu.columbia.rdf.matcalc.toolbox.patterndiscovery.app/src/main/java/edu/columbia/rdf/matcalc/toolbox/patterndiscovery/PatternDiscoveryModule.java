@@ -13,7 +13,7 @@ import java.util.TreeMap;
 import org.jebtk.core.Indexed;
 import org.jebtk.core.IndexedInt;
 import org.jebtk.core.Mathematics;
-import org.jebtk.core.Properties;
+import org.jebtk.core.Props;
 import org.jebtk.core.collections.ArrayListCreator;
 import org.jebtk.core.collections.CollectionUtils;
 import org.jebtk.core.collections.DefaultTreeMap;
@@ -95,7 +95,7 @@ public class PatternDiscoveryModule extends Module
    * @param properties the properties
    * @throws IOException Signals that an I/O exception has occurred.
    */
-  private void patternDiscovery(Properties properties) throws IOException {
+  private void patternDiscovery(Props properties) throws IOException {
     XYSeriesModel groups = XYSeriesModel.create(mWindow.getGroups());
 
     if (groups.getCount() == 0) {
@@ -201,7 +201,7 @@ public class PatternDiscoveryModule extends Module
       boolean logMode,
       boolean isLogData,
       boolean plot,
-      Properties properties) throws IOException {
+      Props properties) throws IOException {
 
     XYSeriesGroup comparisonGroups = new XYSeriesGroup();
     comparisonGroups.add(phenGroup);

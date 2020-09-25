@@ -9,7 +9,7 @@ import java.util.Set;
 
 import javax.swing.Box;
 
-import org.jebtk.core.Properties;
+import org.jebtk.core.Props;
 import org.jebtk.core.collections.CollectionUtils;
 import org.jebtk.core.collections.CountMap;
 import org.jebtk.core.collections.UniqueArrayList;
@@ -87,7 +87,7 @@ public class PatternsPanel extends ModernComponent
 
   private XYSeriesGroup mComparisonGroups;
 
-  private Properties mProperties;
+  private Props mProperties;
 
   private ModernListPanel mML = new ModernListPanel();
 
@@ -95,7 +95,7 @@ public class PatternsPanel extends ModernComponent
       XYSeries phenGroup, XYSeries controlGroup, List<Pattern> phenPatterns,
       List<Pattern> phenPatterns2, List<Pattern> controlPatterns,
       List<Pattern> controlPatterns2, XYSeriesModel groups,
-      XYSeriesGroup comparisonGroups, boolean plot, Properties properties) {
+      XYSeriesGroup comparisonGroups, boolean plot, Props properties) {
     mWindow = window;
     mM = m;
 
