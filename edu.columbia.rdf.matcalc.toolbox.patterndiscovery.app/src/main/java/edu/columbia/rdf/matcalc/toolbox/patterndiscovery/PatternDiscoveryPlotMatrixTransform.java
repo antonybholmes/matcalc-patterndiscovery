@@ -91,6 +91,6 @@ public class PatternDiscoveryPlotMatrixTransform
   public ModernWindow createWindow() {
     return new PatternDiscoveryPlotWindow((ModernRibbonWindow) mParent, mMatrix,
         mGroups, mComparisonGroups, mRowGroups, mCountGroups, mHistory,
-        mProperties);
+        mProps);
   }
 }

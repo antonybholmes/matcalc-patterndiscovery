@@ -8,8 +8,7 @@ public class PatternDiscoveryInfo extends GuiAppInfo {
 
   public PatternDiscoveryInfo() {
     super("Pattern Discovery", new AppVersion(1),
-        "Copyright (C) 2016 Antony Holmes",
-        AssetService.getInstance().loadIcon(PatternDiscoveryIcon.class, 32),
+        "Copyright (C) 2016-${year} Antony Holmes",
         AssetService.getInstance().loadIcon(PatternDiscoveryIcon.class, 128));
   }
 

@@ -26,7 +26,7 @@ import org.jebtk.modern.ModernWidget;
 import org.jebtk.modern.UI;
 import org.jebtk.modern.button.ModernCheckSwitch;
 import org.jebtk.modern.button.ModernTwoStateWidget;
-import org.jebtk.modern.combobox.ModernComboBox;
+import org.jebtk.modern.combobox.ModernComboBox2;
 import org.jebtk.modern.dialog.ModernDialogHelpWindow;
 import org.jebtk.modern.event.ModernClickEvent;
 import org.jebtk.modern.event.ModernClickListener;
@@ -57,12 +57,12 @@ public class PatternDiscoveryDialog extends ModernDialogHelpWindow
   /**
    * The member group1 combo.
    */
-  private ModernComboBox mPhenCombo = null;
+  private ModernComboBox2 mPhenCombo = null;
 
   /**
    * The member group2 combo.
    */
-  private ModernComboBox mControlCombo = null;
+  private ModernComboBox2 mControlCombo = null;
 
   /**
    * The check log2.

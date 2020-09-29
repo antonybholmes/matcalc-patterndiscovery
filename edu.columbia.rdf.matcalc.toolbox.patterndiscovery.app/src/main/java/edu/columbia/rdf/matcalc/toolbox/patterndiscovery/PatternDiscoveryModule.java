@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 import edu.columbia.rdf.matcalc.MainMatCalcWindow;
 import edu.columbia.rdf.matcalc.toolbox.Module;
 import edu.columbia.rdf.matcalc.toolbox.patterndiscovery.app.PatternDiscoveryIcon;
-import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.HeatMapProperties;
+import edu.columbia.rdf.matcalc.toolbox.plot.heatmap.HeatMapProps;
 
 public class PatternDiscoveryModule extends Module
     implements ModernClickListener {
@@ -86,7 +86,7 @@ public class PatternDiscoveryModule extends Module
   }
 
   private void patternDiscovery() throws IOException {
-    patternDiscovery(new HeatMapProperties());
+    patternDiscovery(new HeatMapProps());
   }
 
   /**
